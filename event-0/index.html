@@ -18,13 +18,19 @@
     }
     header {
       margin-bottom: 2rem;
+      text-align: center;
     }
-    header a {
+    .logo {
+      width: 150px;
+      height: 150px;
+      margin-bottom: 1rem;
+    }
+    header a.back-link {
       color: #999;
       text-decoration: none;
       font-size: 0.9rem;
     }
-    header a:hover { color: #f54e00; }
+    header a.back-link:hover { color: #f54e00; }
     h1 {
       font-size: 2rem;
       margin-top: 0.5rem;
@@ -66,7 +72,8 @@
 <body>
   <div class="container">
     <header>
-      <a href="/">&larr; PostHog Cordoba</a>
+      <img src="./logo.png" alt="PostHog Cordoba" class="logo">
+      <a class="back-link" href="/">&larr; PostHog Cordoba</a>
       <h1>Event <span>0</span></h1>
       <p class="subtitle">Projects from the first PostHog Cordoba meetup</p>
     </header>
@@ -78,6 +85,7 @@
          <li><a class="project-link" href="./your-project/">Your Project Name</a></li>
     -->
     <ul>
+      <li><a class="project-link" href="./erizo-slender/">Erizo Slender</a></li>
       <li><a class="project-link" href="./munchkin-dungeon/">Munchkin Dungeon</a></li>
     </ul>
   </div>

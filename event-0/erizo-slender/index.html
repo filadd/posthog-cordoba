@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Erizo Hambriento</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #0d1a08;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Georgia, serif;
+  overflow: hidden;
+}
+#wrapper { position: relative; line-height: 0; }
+canvas   { display: block; }
+
+/* HUD */
+#hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(0,0,0,0.65);
+  font-size: 0.95rem;
+  color: #d8f0b0;
+  pointer-events: none;
+  font-family: monospace;
+}
+
+/* Overlay */
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5,18,3,0.82);
+}
+.panel {
+  background: #111e0a;
+  border: 2px solid #4a7a30;
+  border-radius: 14px;
+  padding: 2rem 2.8rem;
+  text-align: center;
+  max-width: 430px;
+  width: 90%;
+  color: #d0e8b0;
+}
+.panel h1 { font-size: 2.6rem; color: #c8a830; margin-bottom: 4px; }
+.panel h2 { font-size: 1.8rem; color: #c8a830; margin-bottom: 14px; }
+.panel p  { color: #90b870; font-size: 0.92rem; line-height: 1.6; }
+.panel .hint { font-size:0.8rem; color:#607848; margin:10px 0 18px; }
+
+.diff-btn {
+  display: block; width: 100%; margin: 6px 0;
+  padding: 10px 16px;
+  background: #0a160a; border: 1px solid #3a6828;
+  border-radius: 7px; color: #b0d090;
+  font-family: Georgia, serif; font-size: 0.95rem;
+  cursor: pointer; text-align: left;
+  transition: background .18s, border-color .18s;
+}
+.diff-btn:hover { background: #162410; border-color: #60a840; }
+.diff-btn b   { font-size: 1.05rem; }
+.diff-btn small { display:block; color:#607848; font-size:0.78rem; margin-top:3px; }
+
+.btn {
+  margin-top: 14px;
+  padding: 9px 28px;
+  background: #3a6828; border: none; border-radius: 7px;
+  color: #d8f0b0; font-family: Georgia,serif; font-size: 1rem;
+  cursor: pointer; transition: background .15s;
+}
+.btn:hover { background: #4a8838; }
+.hidden { display: none !important; }
+
+/* Food popup */
+#popup {
+  position: absolute;
+  pointer-events: none;
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffe066;
+  text-shadow: 0 1px 3px #000;
+  transition: opacity .3s;
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+  <canvas id="c" width="800" height="560"></canvas>
+
+  <div id="hud" class="hidden">
+    <span>&#9829; <span id="h-lives">3</span></span>
+    <span>Comida: <span id="h-food">0</span>/<span id="h-total">8</span></span>
+    <span>&#9201; <span id="h-time">120</span>s</span>
+    <span>Pts: <span id="h-score">0</span></span>
+  </div>
+
+  <div id="overlay">
+    <!-- MENU -->
+    <div id="s-menu" class="panel">
+      <h1>&#127991; Erizo</h1>
+      <p>Guia al erizo por el jardin nocturno<br>y recoge toda su comida antes de que<br>el tiempo se acabe.</p>
+      <p class="hint">Controles: WASD o Flechas</p>
+      <p style="color:#8ab060;margin-bottom:10px;font-size:.85rem">Elige la dificultad:</p>
+
+      <button class="diff-btn" id="btn-easy">
+        <b>&#127807; Facil</b>
+        <small>Visibilidad completa &middot; Sin depredadores &middot; 120 seg &middot; 3 vidas</small>
+      </button>
+      <button class="diff-btn" id="btn-med">
+        <b>&#127769; Medio</b>
+        <small>Niebla parcial &middot; 1 zorro &middot; 90 seg &middot; 2 vidas &middot; pista cada 10s</small>
+      </button>
+      <button class="diff-btn" id="btn-hard">
+        <b>&#127775; Dificil</b>
+        <small>Oscuridad total &middot; 2 zorros &middot; 60 seg &middot; 1 vida &middot; pista cada 7s</small>
+      </button>
+    </div>
+
+    <!-- GAMEOVER -->
+    <div id="s-over" class="panel hidden">
+      <h2>&#128128; Fin del juego</h2>
+      <p id="over-msg" style="margin-bottom:12px"></p>
+      <p>Comida recogida: <b id="over-food">0</b></p>
+      <p>Puntos: <b id="over-score">0</b></p>
+      <button class="btn" id="btn-retry">Volver al menu</button>
+    </div>
+
+    <!-- WIN -->
+    <div id="s-win" class="panel hidden">
+      <h2>&#127881; Erizo satisfecho!</h2>
+      <p id="win-msg"></p>
+      <p style="margin-top:10px">Puntuacion final: <b id="win-score">0</b></p>
+      <button class="btn" id="btn-again">Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <div id="popup" class="hidden"></div>
+</div>
+
+<script>
+// ── Canvas ─────────────────────────────────────────────────────
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+const CW = 800, CH = 560;  // viewport
+const WW = 1800, WH = 1400; // world
+
+// Fog offscreen canvas
+const fog = document.createElement('canvas');
+fog.width = CW; fog.height = CH;
+const fogCtx = fog.getContext('2d');
+
+// ── Difficulty presets ─────────────────────────────────────────
+const DIFFS = {
+  easy:   { vis:600,  preds:0, time:120, lives:3, count:8,  fspeed:0.25, hintEvery:0   },
+  medium: { vis:175,  preds:1, time:90,  lives:2, count:10, fspeed:0.55, hintEvery:10  },
+  hard:   { vis:95,   preds:2, time:60,  lives:1, count:12, fspeed:0.90, hintEvery:7   },
+};
+
+// ── Food catalog ────────────────────────────────────────────────
+const CATALOG = [
+  { name:'Babosa',     pts:10, r:11, move:'drift'   },
+  { name:'Lombriz',    pts:20, r:9,  move:'wander'  },
+  { name:'Escarabajo', pts:30, r:10, move:'medium'  },
+  { name:'Arana',      pts:40, r:9,  move:'erratic' },
+  { name:'Cochinilla', pts:15, r:8,  move:'slow'    },
+];
+
+// ── State ──────────────────────────────────────────────────────
+let g = {}; // game state container
+let keys = {};
+let animId, timerId;
+let diff;
+
+// ── Input ──────────────────────────────────────────────────────
+window.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))
+    e.preventDefault();
+});
+window.addEventListener('keyup', e => { keys[e.code] = false; });
+
+// ── Helpers ────────────────────────────────────────────────────
+function rnd(a,b) { return a + Math.random()*(b-a); }
+function rndI(a,b){ return Math.floor(rnd(a,b)); }
+function dst(a,b) { return Math.hypot(a.x-b.x, a.y-b.y); }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+// ── Init game ──────────────────────────────────────────────────
+function startGame(d) {
+  diff = DIFFS[d];
+  keys = {};
+  g = {
+    frame: 0,
+    score: 0,
+    lives: diff.lives,
+    time:  diff.time,
+    foodDone: 0,
+    foodTotal: diff.count,
+    player: { x:WW/2, y:WH/2, vx:0, vy:0, speed:3.2, r:14, dir:0, moving:false },
+    cam:    { x:WW/2-CW/2, y:WH/2-CH/2 },
+    foods: [],
+    preds: [],
+    rocks: [],
+    bushes: [],
+    popups: [],
+    hint: { showFor:0, food:null, nextAt: diff.hintEvery ? diff.hintEvery*60 : Infinity },
+  };
+
+  // Generate terrain
+  for (let i=0; i<55; i++) {
+    let x, y;
+    do { x=rnd(60,WW-60); y=rnd(60,WH-60); }
+    while (dst({x,y},{x:WW/2,y:WH/2}) < 120);
+    const r = rnd(14,32);
+    if (Math.random()<0.45) g.rocks.push({x,y,r, shade:rnd(0,1)});
+    else                    g.bushes.push({x,y,r});
+  }
+
+  // Generate food
+  for (let i=0; i<diff.count; i++) {
+    const ft = CATALOG[rndI(0,CATALOG.length)];
+    let x,y;
+    do { x=rnd(80,WW-80); y=rnd(80,WH-80); }
+    while (dst({x,y},{x:WW/2,y:WH/2}) < 90);
+    const a = rnd(0, Math.PI*2);
+    const spd = diff.fspeed * rnd(0.3,1.2);
+    g.foods.push({ x, y, vx:Math.cos(a)*spd, vy:Math.sin(a)*spd,
+                   type:ft, r:ft.r, tick:rndI(0,120), wiggle:rnd(0,Math.PI*2) });
+  }
+
+  // Generate predators
+  for (let i=0; i<diff.preds; i++) {
+    const side = i % 2;
+    g.preds.push({
+      x: side===0 ? rnd(0,WW*0.25) : rnd(WW*0.75,WW),
+      y: rnd(0,WH),
+      vx:0, vy:0, speed:1.6, r:17, angle:0,
+    });
+  }
+
+  // UI
+  document.getElementById('h-total').textContent = diff.count;
+  updateHUD();
+  hideOverlay();
+  document.getElementById('hud').classList.remove('hidden');
+
+  clearInterval(timerId);
+  timerId = setInterval(() => {
+    if (g.state !== 'play') return;
+    g.time--;
+    document.getElementById('h-time').textContent = g.time;
+    if (g.time <= 0) gameOver('Se acabo el tiempo!');
+  }, 1000);
+
+  g.state = 'play';
+  cancelAnimationFrame(animId);
+  loop();
+}
+
+// ── HUD ───────────────────────────────────────────────────────
+function updateHUD() {
+  document.getElementById('h-lives').textContent = g.lives;
+  document.getElementById('h-food').textContent  = g.foodDone;
+  document.getElementById('h-score').textContent = g.score;
+  document.getElementById('h-time').textContent  = g.time;
+}
+
+// ── Overlay helpers ────────────────────────────────────────────
+function hideOverlay() {
+  document.getElementById('overlay').classList.add('hidden');
+  ['s-menu','s-over','s-win'].forEach(id =>
+    document.getElementById(id).classList.add('hidden'));
+}
+function showScreen(id) {
+  document.getElementById('overlay').classList.remove('hidden');
+  ['s-menu','s-over','s-win'].forEach(s => {
+    const el = document.getElementById(s);
+    s===id ? el.classList.remove('hidden') : el.classList.add('hidden');
+  });
+}
+function showMenu() {
+  g.state = 'menu';
+  clearInterval(timerId);
+  cancelAnimationFrame(animId);
+  document.getElementById('hud').classList.add('hidden');
+  showScreen('s-menu');
+  // Draw a nice background while in menu
+  drawMenuBg();
+}
+function gameOver(msg) {
+  g.state = 'over';
+  clearInterval(timerId);
+  document.getElementById('over-msg').textContent   = msg;
+  document.getElementById('over-food').textContent  = g.foodDone;
+  document.getElementById('over-score').textContent = g.score;
+  showScreen('s-over');
+}
+function gameWin() {
+  g.state = 'win';
+  clearInterval(timerId);
+  const bonus = g.time * 5;
+  const total = g.score + bonus;
+  document.getElementById('win-msg').textContent  =
+    'Tiempo restante: +' + bonus + ' pts de bonus!';
+  document.getElementById('win-score').textContent = total;
+  showScreen('s-win');
+}
+
+// ── Buttons ───────────────────────────────────────────────────
+document.getElementById('btn-easy').onclick  = () => startGame('easy');
+document.getElementById('btn-med').onclick   = () => startGame('medium');
+document.getElementById('btn-hard').onclick  = () => startGame('hard');
+document.getElementById('btn-retry').onclick = showMenu;
+document.getElementById('btn-again').onclick = showMenu;
+
+// ── Update logic ───────────────────────────────────────────────
+function update() {
+  g.frame++;
+  const p = g.player;
+
+  // Input
+  let dx=0, dy=0;
+  if (keys['ArrowLeft']  || keys['KeyA']) dx -= 1;
+  if (keys['ArrowRight'] || keys['KeyD']) dx += 1;
+  if (keys['ArrowUp']    || keys['KeyW']) dy -= 1;
+  if (keys['ArrowDown']  || keys['KeyS']) dy += 1;
+
+  if (dx||dy) {
+    const len = Math.hypot(dx,dy);
+    p.vx = (dx/len)*p.speed;
+    p.vy = (dy/len)*p.speed;
+    p.dir = Math.atan2(dy,dx);
+    p.moving = true;
+  } else {
+    p.vx *= 0.6;
+    p.vy *= 0.6;
+    p.moving = Math.abs(p.vx)+Math.abs(p.vy) > 0.1;
+  }
+
+  // Move + wall clamp
+  let nx = clamp(p.x + p.vx, p.r, WW-p.r);
+  let ny = clamp(p.y + p.vy, p.r, WH-p.r);
+
+  // Obstacle collision
+  let blocked = false;
+  for (const o of [...g.rocks, ...g.bushes]) {
+    if (dst({x:nx,y:ny}, o) < p.r + o.r - 5) { blocked=true; break; }
+  }
+  if (!blocked) { p.x=nx; p.y=ny; }
+
+  // Camera
+  g.cam.x = clamp(p.x - CW/2, 0, WW-CW);
+  g.cam.y = clamp(p.y - CH/2, 0, WH-CH);
+
+  // Food movement
+  for (const f of g.foods) {
+    f.tick++;
+    f.wiggle += 0.08;
+    const changeTick = f.type.move==='erratic'?30:f.type.move==='medium'?50:80;
+    if (f.tick % changeTick === 0) {
+      const a = rnd(0,Math.PI*2);
+      const spd = diff.fspeed * (f.type.move==='slow'?0.3:f.type.move==='erratic'?rnd(0.5,1.8):rnd(0.4,1));
+      f.vx = Math.cos(a)*spd;
+      f.vy = Math.sin(a)*spd;
+    }
+    if (f.type.move!=='slow' || f.tick%2===0) {
+      f.x = clamp(f.x+f.vx, f.r+5, WW-f.r-5);
+      f.y = clamp(f.y+f.vy, f.r+5, WH-f.r-5);
+    }
+  }
+
+  // Collect food
+  for (let i=g.foods.length-1; i>=0; i--) {
+    const f = g.foods[i];
+    if (dst(p,f) < p.r + f.r) {
+      g.score += f.type.pts;
+      g.foodDone++;
+      // Screen-relative position for popup
+      const sx = f.x - g.cam.x, sy = f.y - g.cam.y;
+      g.popups.push({ x:sx, y:sy, text:'+'+f.type.pts+' '+f.type.name, t:0 });
+      g.foods.splice(i,1);
+      updateHUD();
+      if (g.foodDone >= g.foodTotal) { gameWin(); return; }
+    }
+  }
+
+  // Predators
+  for (const pred of g.preds) {
+    const d = dst(pred,p);
+    if (d>0) {
+      pred.angle = Math.atan2(p.y-pred.y, p.x-pred.x);
+      const spd = pred.speed * (d < 200 ? 1.4 : 1);
+      pred.vx = Math.cos(pred.angle)*spd;
+      pred.vy = Math.sin(pred.angle)*spd;
+    }
+    pred.x += pred.vx;
+    pred.y += pred.vy;
+
+    if (dst(pred,p) < pred.r + p.r) {
+      g.lives--;
+      updateHUD();
+      if (g.lives<=0) { gameOver('El zorro te atrapo!'); return; }
+      // Reset predator far away
+      pred.x = p.x > WW/2 ? rnd(0,WW*0.25) : rnd(WW*0.75,WW);
+      pred.y = rnd(0,WH);
+    }
+  }
+
+  // Hint system (medium & hard)
+  if (diff.hintEvery && g.foods.length > 0 && g.frame >= g.hint.nextAt) {
+    let nearest = null, minD = Infinity;
+    for (const f of g.foods) {
+      const d = dst(g.player, f);
+      if (d < minD) { minD = d; nearest = f; }
+    }
+    if (nearest) {
+      g.hint.food   = nearest;
+      g.hint.showFor = 200;  // ~3.3 segundos a 60fps
+      g.hint.nextAt  = g.frame + diff.hintEvery * 60;
+      g.popups.push({ x: CW/2, y: CH/2 - 60, text: '! PISTA !', t: 0 });
+    }
+  }
+  if (g.hint.showFor > 0) g.hint.showFor--;
+
+  // Popups age
+  g.popups = g.popups.filter(pop => pop.t < 80);
+  g.popups.forEach(pop => pop.t++);
+}
+
+// ── Draw helpers ───────────────────────────────────────────────
+function sx(wx) { return wx - g.cam.x; }
+function sy(wy) { return wy - g.cam.y; }
+
+function drawBg() {
+  // Tile-based grass
+  const baseColors = ['#243a14','#283e16','#1e3410','#2a4018'];
+  const ts = 60;
+  for (let gx=Math.floor(g.cam.x/ts)*ts; gx<g.cam.x+CW+ts; gx+=ts) {
+    for (let gy=Math.floor(g.cam.y/ts)*ts; gy<g.cam.y+CH+ts; gy+=ts) {
+      const ci = ((gx/ts|0)+(gy/ts|0)) % 4;
+      ctx.fillStyle = baseColors[Math.abs(ci)];
+      ctx.fillRect(gx-g.cam.x, gy-g.cam.y, ts, ts);
+    }
+  }
+  // Random grass tufts (seeded by position)
+  for (let gx=0; gx<CW; gx+=18) {
+    for (let gy=0; gy<CH; gy+=18) {
+      const wx=g.cam.x+gx, wy=g.cam.y+gy;
+      const h = Math.sin(wx*0.27)*Math.cos(wy*0.31) + Math.sin(wx*0.13+wy*0.19);
+      if (h > 0.8) {
+        ctx.fillStyle = '#1a2e0c';
+        ctx.fillRect(gx+(h*4|0), gy, 2, 6);
+        ctx.fillRect(gx+(h*2|0)+4, gy+1, 2, 5);
+      }
+    }
+  }
+  // World border
+  ctx.strokeStyle = '#0a1a06';
+  ctx.lineWidth = 6;
+  ctx.strokeRect(-g.cam.x, -g.cam.y, WW, WH);
+}
+
+function drawRock(r) {
+  const x=sx(r.x), y=sy(r.y);
+  if (x<-r.r*2||x>CW+r.r*2||y<-r.r*2||y>CH+r.r*2) return;
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.beginPath();
+  ctx.ellipse(x+3, y+4, r.r, r.r*0.65, 0.2, 0, Math.PI*2);
+  ctx.fill();
+  // Rock
+  ctx.fillStyle = r.shade>0.5 ? '#707070' : '#5a5a5a';
+  ctx.beginPath();
+  ctx.ellipse(x, y, r.r, r.r*0.72, 0.2, 0, Math.PI*2);
+  ctx.fill();
+  ctx.fillStyle = r.shade>0.5 ? '#909090' : '#787878';
+  ctx.beginPath();
+  ctx.ellipse(x-r.r*0.25, y-r.r*0.25, r.r*0.5, r.r*0.36, 0.2, 0, Math.PI*2);
+  ctx.fill();
+}
+
+function drawBush(b) {
+  const x=sx(b.x), y=sy(b.y);
+  if (x<-b.r*2||x>CW+b.r*2||y<-b.r*2||y>CH+b.r*2) return;
+  ctx.fillStyle = 'rgba(0,0,0,0.25)';
+  ctx.beginPath(); ctx.ellipse(x+3,y+4,b.r,b.r*0.8,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1d4010';
+  ctx.beginPath(); ctx.arc(x, y, b.r, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#265216';
+  ctx.beginPath(); ctx.arc(x-b.r*0.3, y-b.r*0.3, b.r*0.7, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1a3a0c';
+  ctx.beginPath(); ctx.arc(x+b.r*0.25, y-b.r*0.15, b.r*0.55, 0, Math.PI*2); ctx.fill();
+  // Small highlight
+  ctx.fillStyle = 'rgba(180,255,80,0.06)';
+  ctx.beginPath(); ctx.arc(x-b.r*0.35, y-b.r*0.4, b.r*0.28, 0, Math.PI*2); ctx.fill();
+}
+
+function drawFood(f) {
+  const x=sx(f.x), y=sy(f.y);
+  if (x<-40||x>CW+40||y<-40||y>CH+40) return;
+  ctx.save();
+  ctx.translate(x,y);
+
+  // Glow
+  const grd = ctx.createRadialGradient(0,0,0,0,0,f.r*2.5);
+  grd.addColorStop(0,'rgba(255,240,80,0.18)');
+  grd.addColorStop(1,'rgba(255,240,80,0)');
+  ctx.fillStyle = grd;
+  ctx.beginPath(); ctx.arc(0,0,f.r*2.5,0,Math.PI*2); ctx.fill();
+
+  const w = Math.sin(f.wiggle)*2;
+  const nm = f.type.name;
+
+  if (nm==='Babosa') {
+    ctx.rotate(Math.atan2(f.vy,f.vx)||0);
+    // Body
+    ctx.fillStyle='#7a6040';
+    ctx.beginPath(); ctx.ellipse(0,0,f.r*1.6,f.r*0.72,0,0,Math.PI*2); ctx.fill();
+    // Mantle (darker saddle)
+    ctx.fillStyle='#5a4428';
+    ctx.beginPath(); ctx.ellipse(-f.r*0.3,0,f.r*0.7,f.r*0.6,0,0,Math.PI*2); ctx.fill();
+    // Head
+    ctx.fillStyle='#9a7848';
+    ctx.beginPath(); ctx.arc(f.r*1.1,0,f.r*0.65,0,Math.PI*2); ctx.fill();
+    // Eye stalks
+    ctx.strokeStyle='#5a3a18'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(f.r*1.2,-f.r*0.3); ctx.lineTo(f.r*1.6+w,-f.r*0.8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(f.r*1.3, f.r*0.2); ctx.lineTo(f.r*1.7+w, f.r*0.7); ctx.stroke();
+    ctx.fillStyle='#1a0a00';
+    ctx.beginPath(); ctx.arc(f.r*1.6+w,-f.r*0.8,1.5,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(f.r*1.7+w, f.r*0.7,1.5,0,Math.PI*2); ctx.fill();
+
+  } else if (nm==='Lombriz') {
+    ctx.rotate(Math.atan2(f.vy,f.vx)||0);
+    const segs = 7;
+    for (let s=0;s<segs;s++) {
+      const t  = s/(segs-1);
+      const wx2 = Math.sin(f.wiggle*2+s*0.9)*2.5;
+      const sx3 = s*f.r*0.9 - segs*f.r*0.45;
+      ctx.fillStyle = s%2===0 ? '#c87060' : '#a85840';
+      ctx.beginPath(); ctx.ellipse(sx3+wx2,0,f.r*0.72,f.r*0.68,0,0,Math.PI*2); ctx.fill();
+    }
+    // Head
+    const hx = segs*f.r*0.45;
+    ctx.fillStyle='#e09080';
+    ctx.beginPath(); ctx.arc(hx,0,f.r*0.75,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#000'; // tiny eyes
+    ctx.beginPath(); ctx.arc(hx+f.r*0.3,-f.r*0.25,1.2,0,Math.PI*2); ctx.fill();
+
+  } else if (nm==='Escarabajo') {
+    // Shadow
+    ctx.fillStyle='rgba(0,0,0,0.3)';
+    ctx.beginPath(); ctx.ellipse(2,3,f.r*1.1,f.r*0.75,0,0,Math.PI*2); ctx.fill();
+    // Abdomen
+    ctx.fillStyle='#1a3e18';
+    ctx.beginPath(); ctx.ellipse(0,f.r*0.3,f.r,f.r*1.1,0,0,Math.PI*2); ctx.fill();
+    // Wing split
+    ctx.strokeStyle='#0a2008'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(0,-f.r*0.7); ctx.lineTo(0,f.r*1.4); ctx.stroke();
+    // Pronotum
+    ctx.fillStyle='#22501e';
+    ctx.beginPath(); ctx.ellipse(0,-f.r*0.7,f.r*0.75,f.r*0.55,0,0,Math.PI*2); ctx.fill();
+    // Head
+    ctx.fillStyle='#0e280c';
+    ctx.beginPath(); ctx.arc(0,-f.r*1.2,f.r*0.45,0,Math.PI*2); ctx.fill();
+    // Antennae
+    ctx.strokeStyle='#0a1808'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(-f.r*0.2,-f.r*1.5); ctx.lineTo(-f.r*0.7,-f.r*2.2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo( f.r*0.2,-f.r*1.5); ctx.lineTo( f.r*0.7,-f.r*2.2); ctx.stroke();
+    // 6 legs
+    ctx.strokeStyle='#0a1a08';
+    for (let l=0;l<3;l++) {
+      const ly=(l-1)*f.r*0.55;
+      ctx.beginPath(); ctx.moveTo(-f.r,ly); ctx.lineTo(-f.r*2,ly+f.r*0.3); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo( f.r,ly); ctx.lineTo( f.r*2,ly+f.r*0.3); ctx.stroke();
+    }
+
+  } else if (nm==='Arana') {
+    // Abdomen
+    ctx.fillStyle='#3a1a3e';
+    ctx.beginPath(); ctx.arc(0,f.r*0.55,f.r*0.9,0,Math.PI*2); ctx.fill();
+    // Cephalothorax
+    ctx.fillStyle='#28102c';
+    ctx.beginPath(); ctx.arc(0,-f.r*0.4,f.r*0.65,0,Math.PI*2); ctx.fill();
+    // 8 legs
+    ctx.strokeStyle='#180a1c'; ctx.lineWidth=1.3;
+    const legAngles=[0.3,0.7,1.1,1.5];
+    for (const la of legAngles) {
+      ctx.save();
+      ctx.rotate(la); ctx.beginPath(); ctx.moveTo(0,-f.r*0.4); ctx.lineTo(0+f.r*2.2,-f.r*0.2); ctx.stroke();
+      ctx.restore();
+      ctx.save();
+      ctx.rotate(-la); ctx.beginPath(); ctx.moveTo(0,-f.r*0.4); ctx.lineTo(0+f.r*2.2,-f.r*0.2); ctx.stroke();
+      ctx.restore();
+    }
+    // Eyes
+    ctx.fillStyle='#ffcc00';
+    ctx.beginPath(); ctx.arc(-f.r*0.22,-f.r*0.55,1.8,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc( f.r*0.22,-f.r*0.55,1.8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#ff8800';
+    ctx.beginPath(); ctx.arc(-f.r*0.5,-f.r*0.38,1.2,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc( f.r*0.5,-f.r*0.38,1.2,0,Math.PI*2); ctx.fill();
+
+  } else { // Cochinilla
+    ctx.rotate(Math.atan2(f.vy,f.vx)||0);
+    ctx.fillStyle='rgba(0,0,0,0.2)';
+    ctx.beginPath(); ctx.ellipse(1,2,f.r*1.2,f.r*0.75,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#5a5a7e';
+    ctx.beginPath(); ctx.ellipse(0,0,f.r*1.1,f.r*0.72,0,0,Math.PI*2); ctx.fill();
+    // Segments
+    ctx.strokeStyle='#4a4a6e'; ctx.lineWidth=1;
+    for (let s=-2;s<=2;s++) {
+      ctx.beginPath();
+      ctx.moveTo(s*f.r*0.45,-f.r*0.72);
+      ctx.lineTo(s*f.r*0.45, f.r*0.72);
+      ctx.stroke();
+    }
+    ctx.fillStyle='#7070a0';
+    ctx.beginPath(); ctx.arc(f.r*0.9,0,f.r*0.35,0,Math.PI*2); ctx.fill();
+    // Antennae
+    ctx.strokeStyle='#3a3a5a';
+    ctx.beginPath(); ctx.moveTo(f.r*0.9,-f.r*0.2); ctx.lineTo(f.r*1.6+w,-f.r*0.7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(f.r*0.9, f.r*0.2); ctx.lineTo(f.r*1.6+w, f.r*0.7); ctx.stroke();
+    // Legs
+    for (let l=-1;l<=1;l++) {
+      ctx.beginPath(); ctx.moveTo(l*f.r*0.5,-f.r*0.72); ctx.lineTo(l*f.r*0.5-3,-f.r*1.3); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(l*f.r*0.5, f.r*0.72); ctx.lineTo(l*f.r*0.5-3, f.r*1.3); ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+
+function drawHedgehog() {
+  const p = g.player;
+  const x = sx(p.x), y = sy(p.y);
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(p.dir);
+
+  // Walking bob
+  const bob = p.moving ? Math.sin(g.frame * 0.33) * 1.5 : 0;
+
+  // Shadow (stays fixed below)
+  ctx.fillStyle = 'rgba(0,0,0,0.32)';
+  ctx.beginPath();
+  ctx.ellipse(2, 5, 22, 11, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  ctx.translate(0, bob);
+
+  // ── Spine body base ──────────────────────────────────────────
+  ctx.fillStyle = '#3a1b07';
+  ctx.beginPath();
+  ctx.arc(-2, 0, 20, 0, Math.PI*2);
+  ctx.fill();
+
+  // ── Overlapping scale/spine pattern (clipped to body) ────────
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(-2, 0, 20.5, 0, Math.PI*2);
+  ctx.clip();
+
+  // Each row: { r=radius from center, n=count, rx/ry=scale size, a0/a1=angle range in π }
+  const rows = [
+    { r:17, n:8, rx:7,   ry:10,  a0:0.30, a1:1.70 },
+    { r:12, n:7, rx:6,   ry:8.5, a0:0.38, a1:1.62 },
+    { r:7,  n:5, rx:5.2, ry:7.5, a0:0.46, a1:1.54 },
+    { r:2,  n:3, rx:4.5, ry:6.5, a0:0.56, a1:1.44 },
+  ];
+
+  for (const row of rows) {
+    for (let i = 0; i < row.n; i++) {
+      const a  = row.a0*Math.PI + (i / Math.max(row.n-1, 1)) * (row.a1 - row.a0) * Math.PI;
+      const cx = -2 + Math.cos(a) * row.r;
+      const cy =      Math.sin(a) * row.r;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(a); // tip points outward from body center
+
+      // Scale: radial gradient — lighter core, dark tip
+      const grd = ctx.createRadialGradient(0, -row.ry*0.28, 0.5, 0, row.ry*0.1, row.ry);
+      grd.addColorStop(0,    '#c07830');
+      grd.addColorStop(0.42, '#8a4c1c');
+      grd.addColorStop(1,    '#391707');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, row.rx, row.ry, 0, 0, Math.PI*2);
+      ctx.fill();
+
+      // Subtle highlight arc on the upper edge of each scale
+      ctx.strokeStyle = 'rgba(210,145,65,0.38)';
+      ctx.lineWidth   = 1;
+      ctx.beginPath();
+      ctx.ellipse(0, -row.ry*0.28, row.rx*0.58, row.ry*0.32, 0, Math.PI, 0);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+  }
+  ctx.restore(); // end clip
+
+  // ── Face ─────────────────────────────────────────────────────
+  ctx.fillStyle = '#bf7a36';
+  ctx.beginPath();
+  ctx.ellipse(9, 0, 13, 11, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Snout (slightly lighter)
+  ctx.fillStyle = '#d49550';
+  ctx.beginPath();
+  ctx.ellipse(14.5, 0.5, 7.5, 6, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // ── Eyes (big kawaii) ────────────────────────────────────────
+  ctx.fillStyle = '#0c0405';
+  ctx.beginPath(); ctx.arc(10.5, -4.5, 4.5, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(10.5,  4.5, 4.5, 0, Math.PI*2); ctx.fill();
+
+  // Large white highlight
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath(); ctx.arc(12.2, -6.0, 2.0, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(12.2,  3.0, 2.0, 0, Math.PI*2); ctx.fill();
+  // Small secondary highlight
+  ctx.beginPath(); ctx.arc(9.4,  -3.2, 0.9, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(9.4,   5.8, 0.9, 0, Math.PI*2); ctx.fill();
+
+  // ── Rosy cheeks ──────────────────────────────────────────────
+  ctx.fillStyle = 'rgba(215, 72, 72, 0.27)';
+  ctx.beginPath(); ctx.ellipse(13.5, -1.5, 4.2, 2.8, 0, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(13.5,  5.0, 4.2, 2.8, 0, 0, Math.PI*2); ctx.fill();
+
+  // ── Nose ─────────────────────────────────────────────────────
+  ctx.fillStyle = '#1a0808';
+  ctx.beginPath(); ctx.ellipse(18.5, 0.5, 2.9, 2.2, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.28)';
+  ctx.beginPath(); ctx.arc(17.6, -0.2, 0.9, 0, Math.PI*2); ctx.fill();
+
+  ctx.restore();
+}
+
+function drawPredator(pred) {
+  const x=sx(pred.x), y=sy(pred.y);
+  if (x<-50||x>CW+50||y<-50||y>CH+50) return;
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(pred.angle);
+
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,0.3)';
+  ctx.beginPath(); ctx.ellipse(3,5,18,9,0,0,Math.PI*2); ctx.fill();
+
+  // Tail
+  ctx.fillStyle='#c06015';
+  ctx.save();
+  ctx.translate(-14,0);
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.bezierCurveTo(-10,-6,-18,-16,-15,-22);
+  ctx.bezierCurveTo(-12,-28,-4,-20,-4,-12);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#e8e8e8';
+  ctx.beginPath(); ctx.arc(-16,-23,4.5,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  // Body
+  ctx.fillStyle='#c86820';
+  ctx.beginPath(); ctx.ellipse(-1,0,16,10,0,0,Math.PI*2); ctx.fill();
+
+  // Head
+  ctx.fillStyle='#d8781e';
+  ctx.beginPath(); ctx.ellipse(13,0,11,8,0,0,Math.PI*2); ctx.fill();
+
+  // Snout
+  ctx.fillStyle='#e8dcc0';
+  ctx.beginPath(); ctx.ellipse(22,0.5,7,4.5,0,0,Math.PI*2); ctx.fill();
+
+  // Ears
+  ctx.fillStyle='#c06018';
+  ctx.beginPath(); ctx.moveTo(8,-8); ctx.lineTo(12,-18); ctx.lineTo(17,-9); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#e88040';
+  ctx.beginPath(); ctx.moveTo(9,-8); ctx.lineTo(12,-15); ctx.lineTo(16,-9); ctx.closePath(); ctx.fill();
+
+  // Eye
+  ctx.fillStyle='#d8c000';
+  ctx.beginPath(); ctx.arc(18,-3.5,3.5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#000';
+  ctx.beginPath(); ctx.arc(18.5,-3.5,1.8,0,Math.PI*2); ctx.fill();
+
+  // Nose
+  ctx.fillStyle='#2a1010';
+  ctx.beginPath(); ctx.arc(27,0.5,2,0,Math.PI*2); ctx.fill();
+
+  ctx.restore();
+}
+
+function drawFog() {
+  if (diff.vis >= 500) return;
+  const px=sx(g.player.x), py=sy(g.player.y);
+  fogCtx.clearRect(0,0,CW,CH);
+  fogCtx.fillStyle = 'rgba(0,8,0,0.93)';
+  fogCtx.fillRect(0,0,CW,CH);
+  fogCtx.globalCompositeOperation = 'destination-out';
+  const grd = fogCtx.createRadialGradient(px,py,0,px,py,diff.vis);
+  grd.addColorStop(0,   'rgba(0,0,0,1)');
+  grd.addColorStop(0.65,'rgba(0,0,0,0.85)');
+  grd.addColorStop(1,   'rgba(0,0,0,0)');
+  fogCtx.fillStyle = grd;
+  fogCtx.beginPath(); fogCtx.arc(px,py,diff.vis,0,Math.PI*2); fogCtx.fill();
+  fogCtx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(fog,0,0);
+}
+
+function drawMinimap() {
+  if (diff.vis < 200) return; // Hidden on hard
+  const mw=120, mh=90, mx=CW-mw-10, my=CH-mh-10;
+  const rx=mw/WW, ry=mh/WH;
+  ctx.fillStyle='rgba(0,0,0,0.55)';
+  ctx.fillRect(mx,my,mw,mh);
+  ctx.strokeStyle='#3a6a28'; ctx.lineWidth=1;
+  ctx.strokeRect(mx,my,mw,mh);
+  // Food dots
+  ctx.fillStyle='#ffe055';
+  for (const f of g.foods) {
+    ctx.beginPath(); ctx.arc(mx+f.x*rx, my+f.y*ry, 2, 0, Math.PI*2); ctx.fill();
+  }
+  // Predators
+  ctx.fillStyle='#ff4010';
+  for (const p of g.preds) {
+    ctx.beginPath(); ctx.arc(mx+p.x*rx, my+p.y*ry, 3, 0, Math.PI*2); ctx.fill();
+  }
+  // Player
+  ctx.fillStyle='#50ff60';
+  const p=g.player;
+  ctx.beginPath(); ctx.arc(mx+p.x*rx, my+p.y*ry, 3.5, 0, Math.PI*2); ctx.fill();
+  // Label
+  ctx.fillStyle='#607848';
+  ctx.font='9px monospace'; ctx.textAlign='left';
+  ctx.fillText('MAPA',mx+3,my+9);
+}
+
+function drawPopups() {
+  for (const pop of g.popups) {
+    const alpha = 1 - pop.t/80;
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle='#ffe066';
+    ctx.font='bold 13px monospace';
+    ctx.textAlign='center';
+    ctx.fillText(pop.text, pop.x, pop.y - pop.t*0.6 - 20);
+  }
+  ctx.globalAlpha=1;
+  ctx.textAlign='left';
+}
+
+// ── Hint drawing ──────────────────────────────────────────────
+function drawHint() {
+  const h = g.hint;
+  if (!h || h.showFor <= 0 || !h.food) return;
+
+  const fade  = Math.min(1, h.showFor / 40);          // fade out last 40 frames
+  const pulse = 0.72 + Math.sin(g.frame * 0.18) * 0.28;
+
+  // Recalculate live angle (food might have moved)
+  const liveAngle = Math.atan2(h.food.y - g.player.y, h.food.x - g.player.x);
+
+  // ── 1. Arrow orbiting the hedgehog ──────────────────────────
+  const px = sx(g.player.x), py = sy(g.player.y);
+  const aDist = 36;
+  const ax = px + Math.cos(liveAngle) * aDist;
+  const ay = py + Math.sin(liveAngle) * aDist;
+
+  ctx.save();
+  ctx.globalAlpha = fade * pulse;
+  ctx.translate(ax, ay);
+  ctx.rotate(liveAngle);
+
+  // Soft glow behind arrow
+  const glowGrd = ctx.createRadialGradient(0,0,0,0,0,20);
+  glowGrd.addColorStop(0,'rgba(255,220,40,0.45)');
+  glowGrd.addColorStop(1,'rgba(255,220,40,0)');
+  ctx.fillStyle = glowGrd;
+  ctx.beginPath(); ctx.arc(0,0,20,0,Math.PI*2); ctx.fill();
+
+  // Arrow body
+  ctx.fillStyle   = '#ffe04a';
+  ctx.strokeStyle = '#a07800';
+  ctx.lineWidth   = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(13, 0);    // tip
+  ctx.lineTo(-5, -7);
+  ctx.lineTo(-2,  0);
+  ctx.lineTo(-5,  7);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+
+  // ── 2. Expanding rings at food location (through fog) ───────
+  const fx = sx(h.food.x), fy = sy(h.food.y);
+  const cycleLen = 55;
+
+  for (let i = 0; i < 2; i++) {
+    const phase = (g.frame + i * Math.floor(cycleLen/2)) % cycleLen;
+    const t     = phase / cycleLen;
+    const r2    = 6 + t * 38;
+    ctx.save();
+    ctx.globalAlpha = fade * (1 - t) * 0.9;
+    ctx.strokeStyle = '#ffe04a';
+    ctx.lineWidth   = 2.2;
+    ctx.beginPath();
+    ctx.arc(fx, fy, r2, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Bright center dot
+  ctx.save();
+  ctx.globalAlpha    = fade * pulse * 0.95;
+  ctx.fillStyle      = '#fff3a0';
+  ctx.shadowColor    = '#ffe04a';
+  ctx.shadowBlur     = 12;
+  ctx.beginPath();
+  ctx.arc(fx, fy, 5.5, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// ── Menu background ────────────────────────────────────────────
+function drawMenuBg() {
+  ctx.fillStyle='#1a2e10';
+  ctx.fillRect(0,0,CW,CH);
+  ctx.fillStyle='#1e3412';
+  for (let x=0;x<CW;x+=22) for (let y=0;y<CH;y+=22) {
+    if (Math.sin(x*0.2)*Math.cos(y*0.2)>0.3)
+      ctx.fillRect(x,y,3,7);
+  }
+}
+
+// ── Main loop ──────────────────────────────────────────────────
+function loop() {
+  if (g.state !== 'play') return;
+  update();
+  drawBg();
+  for (const r of g.rocks)  drawRock(r);
+  for (const b of g.bushes) drawBush(b);
+  for (const f of g.foods)  drawFood(f);
+  for (const p of g.preds)  drawPredator(p);
+  drawHedgehog();
+  drawFog();
+  drawHint();
+  drawMinimap();
+  drawPopups();
+  animId = requestAnimationFrame(loop);
+}
+
+// ── Boot ───────────────────────────────────────────────────────
+drawMenuBg();
+showScreen('s-menu');
+</script>
+</body>
+</html>
