@@ -1,10 +1,3 @@
----
-date: 2026-04-14
-event_date: 2026-04-27
-tags: [posthog, events, agentic-engineering, side-event]
-status: scheduled
----
-
 # PostHog Side Event: Intro to Agentic Engineering
 
 Side event in the PostHog Córdoba series. A ~2 hour afternoon theory + discussion session for people who vibe-coded during Event 0 — bridging from "just tell it what to build" to structured agentic engineering.
@@ -12,10 +5,6 @@ Side event in the PostHog Córdoba series. A ~2 hour afternoon theory + discussi
 ## Context
 
 Most attendees at Event 0 used AI to help build games, but experienced it purely as vibe coding (prompt → accept → iterate when broken). They're not working professionals so they lack exposure to structured workflows. This session introduces the concepts behind structured agentic engineering, starting from their own experience.
-
-## Referentes
-
-- **Agus Carrasco** — agentic engineering
 
 ## Format
 
@@ -48,14 +37,3 @@ Spec-driven development como evolución del planning (specs viviendo en el repo)
 ### Cierre (~10 min)
 
 De aceptar lo que sale, a dirigir lo que se construye. El toolkit consolidado en una página (planificar & revisar, contexto, ing. agéntica, validación). Recursos para profundizar.
-
-## Open Questions
-
-- [ ] How much time per topic? (rough order of magnitude — block-level timings set, intra-block split TBD)
-- [ ] Invite list — Event 0 attendees? Open? Smaller group?
-
-## Related
-
-- [[02_Areas/PostHog-Events/event-roadmap|Event Roadmap]]
-- [[02_Areas/PostHog-Events|PostHog Events Area]]
-- [[01_Projects/vibe-coding-to-agentic-engineering|Course: Vibe Coding to Agentic Engineering]] (full 4-week version, deeper content)
