@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Intro a la Ingeniería Agéntica</title>
+<link rel="stylesheet" href="styles.css?v=2">
+<script src="deck-stage.js"></script>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- 1. COVER -->
+<section class="cover" data-label="01 Cover">
+  <img src="assets/cover-art.png" alt="" style="position: absolute; right: 110px; top: 50%; transform: translateY(-50%); width: 520px; height: 520px; border-radius: 50%; object-fit: cover; box-shadow: 0 30px 80px rgba(0,0,0,0.4); z-index: 1;">
+  <div class="eyebrow" style="position: relative; z-index: 2;"><span class="dot"></span>POSTHOG CÓRDOBA · EVENT 1<span class="rule"></span>27 · 04 · 2026</div>
+  <div style="position: relative; z-index: 2; max-width: 1100px;">
+    <h1>Intro a la<br><span class="accent">Ingeniería</span><br>Agéntica.</h1>
+    <p class="subtitle">De "hacé lo que te pido" a trabajar con la IA como un equipo.</p>
+  </div>
+  <div class="meta-row" style="position: relative; z-index: 2;">
+    <span>teoría + discusión</span>
+    <span></span>
+  </div>
+</section>
+
+<!-- 2. BLOQUE 1 DIVIDER -->
+<section class="divider" data-label="02 Bloque 1 — Intro">
+  <div class="eyebrow"><span class="dot"></span>BLOQUE 01</div>
+  <div class="row" style="align-items: flex-end; gap: 80px;">
+    <div class="num">01</div>
+    <div style="padding-bottom: 30px;">
+      <h2>Intro.</h2>
+    </div>
+  </div>
+  <div class="meta">Recap del Event 0 · Debate en vivo · Agenda</div>
+</section>
+
+<!-- 3. RECAP EVENT 0 -->
+<section class="slide" data-label="03 Recap Event 0">
+  <div class="eyebrow"><span class="dot"></span>01 · INTRO<span class="rule"></span>DIEGO</div>
+  <div class="title-block">
+    <h2 class="title">Lo que pasó en el<br>Event 0.</h2>
+  </div>
+  <div class="row" style="margin-top: 50px; gap: 50px; padding-bottom: 40px;">
+    <div class="grow" style="height: 380px; display: grid; grid-template-columns: 1.7fr 1fr 1fr 0.8fr; grid-template-rows: minmax(0, 1.2fr) minmax(0, 1fr); gap: 8px;">
+      <img src="assets/event0-setup.jpg" alt="" style="grid-row: 1 / 3; grid-column: 1 / 2; width: 100%; height: 100%; object-fit: cover; display: block;">
+      <img src="assets/event0-building.jpg" alt="" style="grid-column: 2 / 5; grid-row: 1 / 2; width: 100%; height: 100%; object-fit: cover; display: block;">
+      <img src="assets/event0-asado.jpg" alt="" style="grid-column: 2 / 3; grid-row: 2 / 3; width: 100%; height: 100%; object-fit: cover; display: block;">
+      <img src="assets/event0-almuerzo.jpg" alt="" style="grid-column: 3 / 4; grid-row: 2 / 3; width: 100%; height: 100%; object-fit: cover; display: block;">
+      <img src="assets/event0-demo.jpg" alt="" style="grid-column: 4 / 5; grid-row: 2 / 3; width: 100%; height: 100%; object-fit: cover; display: block;">
+    </div>
+    <div class="col" style="flex: 0 0 480px; justify-content: space-between;">
+      <ul class="dashes">
+        <li>Qué construimos — juegos en una tarde con IA</li>
+        <li>Quiénes participaron, qué herramientas</li>
+        <li>Highlights y momentos memorables</li>
+      </ul>
+      <div style="font-family: var(--mono); font-size: 18px; line-height: 1.7; color: var(--ink-3); letter-spacing: 0.04em;">
+        <div style="color: var(--ink-2); margin-bottom: 10px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.18em;">Más info</div>
+        <div><span style="color: var(--accent);">→</span>&nbsp; posthog.com/events/180</div>
+        <div><span style="color: var(--accent);">→</span>&nbsp; github.com/PostHog/requests-for-comments-public/issues/508</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>01 / Intro</span><span>Recap del Event 0</span></div>
+</section>
+
+<!-- 4. WORD CLOUD live -->
+<!-- 4. WORD CLOUD live + PROMPTS -->
+<section class="slide" data-label="04 Nube de palabras en vivo">
+  <div class="eyebrow"><span class="dot"></span>01 · DEBATE<span class="rule"></span>EN VIVO · MENTIMETER</div>
+  <div class="row" style="gap: 80px; align-items: center; margin-top: 30px;">
+    <div style="flex: 1; min-width: 0;">
+      <h2 class="title">¿Cómo fue<br>vibe codear<br><em>para ustedes?</em></h2>
+      <p class="kicker" style="margin-top: 24px;">Abran el link y respondan con las primeras palabras que se les vengan a la cabeza.</p>
+      <p class="small" style="margin-top: 32px; margin-bottom: 14px; opacity: .7;">DISPARADORES</p>
+      <ol class="steps" style="max-width: 720px;">
+        <li>¿Cómo se sintieron trabajando con IA?</li>
+        <li>¿Qué fue lo más frustrante?</li>
+        <li>¿Alguien logró algo que no habría podido hacer solo?</li>
+      </ol>
+    </div>
+    <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px;">
+      <img src="assets/menti-qr.png" alt="QR Mentimeter" style="width: 460px; height: 460px; image-rendering: pixelated; border: 1px solid var(--rule); padding: 14px; background: #fff;"/>
+      <p class="small" style="opacity: .7;">Escaneá el QR para participar</p>
+    </div>
+  </div>
+  <div class="footer"><span>01 / Intro</span><span>Word cloud + discusión</span></div>
+</section>
+
+<!-- 5. MENTIMETER FULL-BLEED -->
+<section class="slide" data-label="05 Mentimeter en vivo" style="padding: 0; display: block;">
+  <iframe scrolling='no' sandbox='allow-popups allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' src='https://www.mentimeter.com/app/presentation/alfgtob5dpv6dym3qv83kq1tbvhgd1nc/embed' style='display: block; width: 100%; height: 100%; border: 0; background: var(--bg-2);'></iframe>
+</section>
+
+<!-- 6. LO QUE PROBABLEMENTE PASÓ -->
+<section class="slide" data-label="06 Algo que pudo haber pasado">
+  <div class="eyebrow"><span class="dot"></span>01 · INTRO<span class="rule"></span>VALIDAR LA EXPERIENCIA</div>
+  <div class="title-block">
+    <h2 class="title">Algo que <em>quizás</em><br>les pasó.</h2>
+  </div>
+  <div class="flow-h" style="margin-top: 70px;">
+    <div class="step">Le pedís<br>algo</div>
+    <div class="arr">→</div>
+    <div class="step">Sale bien</div>
+    <div class="arr">→</div>
+    <div class="step">Otro<br>cambio</div>
+    <div class="arr">→</div>
+    <div class="step">Anduvo</div>
+    <div class="arr">→</div>
+    <div class="step">Feature<br>nuevo</div>
+    <div class="arr">→</div>
+    <div class="step accent">Algo<br>raro</div>
+    <div class="arr">→</div>
+    <div class="step">Querés<br>arreglarlo</div>
+    <div class="arr">→</div>
+    <div class="step accent">Se rompe</div>
+  </div>
+  <div class="footer"><span>01 / Intro</span><span>Lo que pasa habitualmente</span></div>
+</section>
+
+<!-- 7. HOY HABLAMOS DE ESO -->
+<section class="slide" data-label="07 Hoy hablamos de eso">
+  <div class="eyebrow"><span class="dot"></span>01 · INTRO<span class="rule"></span>AGENDA</div>
+  <div class="title-block">
+    <h2 class="title">Hoy hablamos<br>de eso.</h2>
+  </div>
+  <ul class="dashes" style="margin-top: 56px; max-width: 1600px; font-size: 28px;">
+    <li>¿Qué pasa cuando vibe codeamos?</li>
+    <li>¿En qué momento se queda corto?</li>
+    <li>¿Cómo empezamos a entender y a hacer crecer los proyectos?</li>
+    <li>¿Cómo dejamos de usar IA para programar rápido y empezamos a usarla para trabajar mejor?</li>
+  </ul>
+  <div class="footer"><span>01 / Intro</span><span>→ Bloque 02</span></div>
+</section>
+
+<!-- 8. BLOQUE 2 DIVIDER -->
+<section class="divider" data-label="08 Bloque 2 — Vibe Coding">
+  <div class="eyebrow"><span class="dot"></span>BLOQUE 02</div>
+  <div class="row" style="align-items: flex-end; gap: 80px;">
+    <div class="num">02</div>
+    <div style="padding-bottom: 30px;">
+      <h2>Vibe Coding.</h2>
+    </div>
+  </div>
+  <div class="meta">Definición · El problema del 80% · Modos de falla</div>
+</section>
+
+<!-- 9. VIBE CODING — DEFINICIÓN + TWEET DE KARPATHY -->
+<section class="slide" data-label="09 ¿Qué es vibe coding?">
+  <div class="eyebrow"><span class="dot"></span>02 · VIBE CODING<span class="rule"></span>3.0 · DEFINICIÓN</div>
+  <div class="title-block">
+    <h2 class="title">¿Qué es <em>vibe coding</em>?</h2>
+    <p class="kicker">El término lo acuñó Andrej Karpathy en un tweet del 2 de febrero de 2025. Se viralizó — pero la definición original es muy específica.</p>
+  </div>
+
+  <div class="row" style="margin-top: 70px; gap: 60px; align-items: flex-start;">
+    <!-- Left: short definition -->
+    <div style="flex: 0 0 620px;">
+      <div class="chip" style="margin-bottom: 28px;">Definición</div>
+      <p class="lead" style="font-size: 38px; line-height: 1.3;">Construir software con una IA <strong>sin leer el código</strong> que genera.</p>
+      <p style="margin-top: 28px; color: var(--ink-3); font-size: 26px; line-height: 1.45;">Le decís lo que querés, mirás si funciona, y si no — le pedís que arregle. El "vibe" es justamente que <em>no te metés en el cómo</em>.</p>
+    </div>
+
+    <!-- Right: tweet card -->
+    <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener" class="grow" style="border: 1px solid var(--rule); background: oklch(1 0 0 / 0.5); padding: 36px 40px; max-width: 920px; text-decoration: none; color: inherit; display: block; transition: border-color .15s ease, background .15s ease;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='oklch(1 0 0 / 0.8)'" onmouseout="this.style.borderColor='var(--rule)';this.style.background='oklch(1 0 0 / 0.5)'">
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 22px;">
+        <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--ink); color: var(--bg); font-family: var(--serif); font-size: 32px; display: flex; align-items: center; justify-content: center; line-height: 1;">A</div>
+        <div style="line-height: 1.2;">
+          <div style="font-family: var(--sans); font-weight: 600; font-size: 22px; color: var(--ink);">Andrej Karpathy</div>
+          <div style="font-family: var(--mono); font-size: 18px; color: var(--ink-3); letter-spacing: 0.04em;">@karpathy · 2 feb 2025</div>
+        </div>
+        <div style="flex: 1;"></div>
+        <div style="font-family: var(--mono); font-size: 14px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase;">x.com ↗</div>
+      </div>
+      <p style="font-family: var(--serif); font-style: italic; font-size: 34px; line-height: 1.3; color: var(--ink); margin: 0;">"There's a new kind of coding I call <strong style="font-style: normal; color: var(--accent); font-weight: 400;">'vibe coding'</strong>, where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."</p>
+      <div style="margin-top: 22px; font-family: var(--mono); font-size: 15px; color: var(--ink-3); letter-spacing: 0.04em; word-break: break-all;">x.com/karpathy/status/1886192184808149383</div>
+    </a>
+  </div>
+
+  <p class="small" style="margin-top: 36px;">
+</p>
+  <div class="footer"><span>02 / Vibe Coding</span><span>3 — ¿Qué es?</span></div>
+</section>
+
+<!-- 10. VIBE CODING = ITERAR SIN MIRAR -->
+<section class="slide" data-label="10 Vibe coding = iterar sin mirar">
+  <div class="eyebrow"><span class="dot"></span>02 · VIBE CODING<span class="rule"></span>3.1</div>
+  <div class="title-block">
+    <h2 class="title">El loop de vibe coding.</h2>
+  </div>
+  <div style="margin-top: 50px; flex: 1; display: flex; align-items: center; justify-content: center;">
+    <svg viewBox="0 0 1480 500" style="width: 100%; max-width: 1480px; height: auto;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="oklch(0.20 0.012 70)"/>
+        </marker>
+        <marker id="arrowheadAccent" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="oklch(0.62 0.18 30)"/>
+        </marker>
+        <marker id="arrowheadMuted" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="oklch(0.45 0.012 70)"/>
+        </marker>
+      </defs>
+
+      <!-- Step 1: Le pedís algo a la IA  (x: 40–300, center y: 240) -->
+      <g>
+        <rect x="40" y="180" width="260" height="120" fill="none" stroke="oklch(0.20 0.012 70)" stroke-width="1.5"/>
+        <text x="60" y="212" font-family="JetBrains Mono" font-size="16" fill="oklch(0.45 0.012 70)" letter-spacing="0.08em">01</text>
+        <text x="60" y="258" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">Le pedís algo</text>
+        <text x="60" y="284" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">a la IA</text>
+      </g>
+
+      <!-- Arrow 01 → 02 (snapped to box edges) -->
+      <line x1="300" y1="240" x2="400" y2="240" stroke="oklch(0.20 0.012 70)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+      <!-- Step 2: Ves si funciona  (x: 400–660) -->
+      <g>
+        <rect x="400" y="180" width="260" height="120" fill="none" stroke="oklch(0.20 0.012 70)" stroke-width="1.5"/>
+        <text x="420" y="212" font-family="JetBrains Mono" font-size="16" fill="oklch(0.45 0.012 70)" letter-spacing="0.08em">02</text>
+        <text x="420" y="258" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">Ves si</text>
+        <text x="420" y="284" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">funciona</text>
+      </g>
+
+      <!-- Branch labels along the rails -->
+      <text x="690" y="170" font-family="JetBrains Mono" font-size="15" fill="oklch(0.45 0.012 70)" letter-spacing="0.08em">SI SÍ</text>
+      <text x="690" y="345" font-family="JetBrains Mono" font-size="15" fill="oklch(0.62 0.18 30)" letter-spacing="0.08em">SI NO</text>
+
+      <!-- Branch up to 03A: from box02 right edge (660,240) → split point (730,240) → up (730,120) → enter 03A left edge (770,120) -->
+      <path d="M 660 240 L 730 240 L 730 120 L 770 120" fill="none" stroke="oklch(0.20 0.012 70)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+      <!-- Branch down to 03B -->
+      <path d="M 660 240 L 730 240 L 730 360 L 770 360" fill="none" stroke="oklch(0.62 0.18 30)" stroke-width="1.5" marker-end="url(#arrowheadAccent)"/>
+
+      <!-- Step 03A (top) — pedir algo más  (x: 770–1090, y: 60–180, center y: 120) -->
+      <g>
+        <rect x="770" y="60" width="320" height="120" fill="none" stroke="oklch(0.20 0.012 70)" stroke-width="1.5"/>
+        <text x="790" y="92" font-family="JetBrains Mono" font-size="16" fill="oklch(0.45 0.012 70)" letter-spacing="0.08em">03A</text>
+        <text x="790" y="138" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">Le pedís</text>
+        <text x="790" y="164" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">algo más</text>
+      </g>
+
+      <!-- Step 03B (bottom) — pedir que arregle  (x: 770–1090, y: 300–420, center y: 360) -->
+      <g>
+        <rect x="770" y="300" width="320" height="120" fill="none" stroke="oklch(0.62 0.18 30)" stroke-width="1.5"/>
+        <text x="790" y="332" font-family="JetBrains Mono" font-size="16" fill="oklch(0.62 0.18 30)" letter-spacing="0.08em">03B</text>
+        <text x="790" y="378" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">Le pedís que</text>
+        <text x="790" y="404" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="oklch(0.20 0.012 70)">lo arregle</text>
+      </g>
+
+      <!-- LOOP rail: collects from 03A and 03B and returns to 01 top edge -->
+      <!-- 03A out: (1090,120) → (1380,120) -->
+      <path d="M 1090 120 L 1380 120" fill="none" stroke="oklch(0.45 0.012 70)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <!-- 03B out: (1090,360) → (1380,360) -->
+      <path d="M 1090 360 L 1380 360" fill="none" stroke="oklch(0.45 0.012 70)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <!-- Vertical merge rail at x=1380 → returns to top edge of step 02 -->
+      <path d="M 1380 120 L 1380 460 L 530 460 L 530 300" fill="none" stroke="oklch(0.45 0.012 70)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrowheadMuted)"/>
+
+      <!-- LOOP label, anchored to end so it stays inside the viewBox -->
+      <text x="1370" y="245" font-family="JetBrains Mono" font-size="14" fill="oklch(0.45 0.012 70)" letter-spacing="0.12em" text-anchor="end">LOOP ↩</text>
+    </svg>
+  </div>
+  <p class="small" style="margin-top: 30px; max-width: 1500px;">En el medio, muchas veces no leemos lo que genera. Confiamos en que funciona y seguimos.</p>
+  <div class="footer"><span>02 / Vibe Coding</span><span>3 — Vibe coding</span></div>
+</section>
+
+<!-- 12. LA CURVA + EL 80% -->
+<section class="slide" data-label="12 La curva del 80%">
+  <div class="eyebrow"><span class="dot"></span>02 · VIBE CODING<span class="rule"></span>4 · EL PROBLEMA DEL 80%</div>
+  <div class="title-block">
+    <h2 class="title">El 80% funciona.<br>El otro 20% es el que duele.</h2>
+    <p class="kicker">Rápido al principio. Lento después. Cada cambio cuesta más.</p>
+  </div>
+  <div class="row" style="margin-top: 60px; gap: 60px; align-items: flex-start;">
+    <div class="grow" style="max-width: 760px;">
+      <div class="curve" style="margin-top: 0;">
+        <svg viewBox="0 0 1400 380" preserveAspectRatio="none">
+          <path d="M 0,360 C 60,360 120,40 280,30 C 440,20 600,80 800,180 C 1000,280 1200,330 1400,360" stroke="oklch(0.58 0.17 38)" stroke-width="6" fill="none"/>
+          <circle cx="280" cy="30" r="10" fill="oklch(0.58 0.17 38)"/>
+          <circle cx="1400" cy="360" r="10" fill="oklch(0.58 0.17 38)"/>
+          <text x="300" y="76" font-family="JetBrains Mono" font-size="28" fill="oklch(0.20 0.012 70)">¡FUNCIONA!</text>
+          <text x="1100" y="335" font-family="JetBrains Mono" font-size="28" fill="oklch(0.20 0.012 70)" text-anchor="end">cada fix rompe otra cosa</text>
+        </svg>
+        <div style="margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: oklch(0.45 0.012 70); text-transform: uppercase; letter-spacing: 0.08em;">↑ velocidad del progreso · tiempo →</div>
+      </div>
+    </div>
+    <div class="grow" style="padding-top: 10px;">
+      <div class="label" style="margin-bottom: 18px;">POR QUÉ EL ÚLTIMO 20% CUESTA TANTO</div>
+      <ul class="dashes" style="font-size: 26px;">
+        <li><strong>Juicio</strong> — ¿está bien hecho, o apenas funciona?</li>
+        <li><strong>Contexto</strong> — ¿cómo afecta esto al resto del proyecto?</li>
+        <li><strong>Edge cases</strong> — ¿qué pasa si el usuario hace algo inesperado?</li>
+        <li><strong>Acumulación</strong> — un cambio rompe otra cosa; un fix parchea el síntoma; nadie sabe quién tiene la culpa de qué.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>02 / Vibe Coding</span><span>4 — El problema del 80%</span></div>
+</section>
+
+<!-- 10. LA DEUDA QUE NO VEMOS -->
+<section class="slide" data-label="11 La deuda que no vemos">
+  <div class="eyebrow"><span class="dot"></span>02 · VIBE CODING<span class="rule"></span>3.2</div>
+  <div class="title-block">
+    <h2 class="title">Tres deudas que se acumulan.</h2>
+  </div>
+  <div class="row" style="margin-top: 70px; gap: 36px;">
+    <div class="card grow">
+      <div class="label">A — DEUDA DE COMPRENSIÓN</div>
+      <div class="head">No siempre entendés cómo funciona lo que se generó.</div>
+      <div class="body">Con el tiempo se acumula. Cada vez entendés menos tu propio proyecto.</div>
+    </div>
+    <div class="card grow">
+      <div class="label">B — CÓDIGO FRÁGIL</div>
+      <div class="head">Anda para el caso feliz. Se rompe en cuanto cambiás algo.</div>
+      <div class="body">Cada fix agrega complejidad en vez de reducirla.</div>
+    </div>
+    <div class="card grow">
+      <div class="label">C — FALTA DE DISEÑO Y ARQUITECTURA</div>
+      <div class="head">Cada feature se agrega sin pensar cómo encaja con el resto.</div>
+      <div class="body">Funciona pero no hay un plan. Cada cambio futuro se vuelve más difícil porque no hay estructura debajo.</div>
+    </div>
+  </div>
+  <p class="small" style="margin-top: 56px; text-align: left;">→ La <strong>deuda de comprensión</strong> es deuda cognitiva; el <strong>código frágil y falta de estructura</strong> es deuda técnica.</p>.</p>
+  <div class="footer"><span>02 / Vibe Coding</span><span>3 — Qué pasa cuando vibe codeás</span></div>
+</section>
+
+<!-- 13. MODOS DE FALLA -->
+<section class="slide" data-label="13 Modos de falla">
+  <div class="eyebrow"><span class="dot"></span>02 · VIBE CODING<span class="rule"></span>5 · MODOS DE FALLA</div>
+  <div class="title-block">
+    <h2 class="title">La IA falla convincentemente.</h2>
+    <p class="kicker">A veces ni se nota que se equivocó — y eso es lo peligroso.</p>
+  </div>
+  <div class="row" style="margin-top: 40px; gap: 24px; align-items: stretch;">
+    <div class="card grow" style="padding: 26px 28px;">
+      <div class="label">01 — FALSA CONFIANZA</div>
+      <div class="head" style="font-size: 26px;">"Parece que está bien, pero no lo está."</div>
+      <div class="body" style="font-size: 20px; margin-top: 10px; line-height: 1.4;"><span class="mono" style="background: var(--bg-2); padding: 1px 6px; font-size: 18px;">"Fixed the login issue"</span> — sigue fallando. Te dice que está listo, lo explica con confianza, y no lo está.</div>
+    </div>
+    <div class="card grow" style="padding: 26px 28px;">
+      <div class="label">02 — SIEMPRE TE DA LA RAZÓN</div>
+      <div class="head" style="font-size: 26px;">Sycophancy: nunca te contradice.</div>
+      <div class="body" style="font-size: 20px; margin-top: 10px; line-height: 1.4;">Le preguntás si está bien y te dice que sí. Le proponés una idea mala y te la celebra. <strong>No es un revisor</strong> — es un asistente entusiasta.</div>
+    </div>
+    <div class="card grow" style="padding: 26px 28px;">
+      <div class="label">03 — ERRORES EN CADENA</div>
+      <div class="head" style="font-size: 26px;">Un problema se vuelve varios.</div>
+      <div class="body" style="font-size: 20px; margin-top: 10px; line-height: 1.4;">Asume algo incorrecto → construye encima → parece funcionar → pedís un cambio → choca con la suposición → hay que deshacer varias capas.</div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 24px; gap: 24px;">
+    <div class="card grow" style="padding: 26px 28px;">
+      <div class="label">04 — FALTA DE JUICIO</div>
+      <div class="head" style="font-size: 26px;">Hace de más, o hace de menos.</div>
+      <div class="body" style="font-size: 20px; margin-top: 10px; line-height: 1.4;">"Un botón para guardar" → te lo entrega con validación, toast y logging que no pediste. O al revés: el botón está, pero adentro está vacío. <strong>No mide qué corresponde.</strong></div>
+    </div>
+    <div class="card grow" style="padding: 26px 28px;">
+      <div class="label">05 — PÉRDIDA DE CONTEXTO</div>
+      <div class="head" style="font-size: 26px;">Olvida lo que ya habías decidido.</div>
+      <div class="body" style="font-size: 20px; margin-top: 10px; line-height: 1.4;">Empezaste con una landing, terminaste con un SaaS. <strong>No fue un cambio grande, fueron muchos chicos</strong> — cada uno parecía razonable.</div>
+    </div>
+    <div class="card grow" style="padding: 26px 28px;">
+      <div class="label">06 — FALTA DE ESTRUCTURA Y BUENAS PRÁCTICAS</div>
+      <div class="head" style="font-size: 26px;">Funciona, pero es un quilombo.</div>
+      <div class="body" style="font-size: 20px; margin-top: 10px; line-height: 1.4;">Un archivo de 2000 líneas, nombres que solo tienen sentido en el momento, copia-y-pega en vez de abstracciones. <strong>Nadie</strong> lo puede mantener — ni vos en dos semanas.</div>
+    </div>
+  </div>
+  <div class="footer"><span>02 / Vibe Coding</span><span>5 — Modos de falla</span></div>
+</section>
+
+<!-- (slides 13-22 consolidated into slides 12 and 13 above) -->
+
+<!-- 25. BLOQUE 3 DIVIDER -->
+<section class="divider" data-label="25 Bloque 3 — Planificar y revisar">
+  <div class="eyebrow"><span class="dot"></span>BLOQUE 03</div>
+  <div class="row" style="align-items: flex-end; gap: 80px;">
+    <div class="num">03</div>
+    <div style="padding-bottom: 30px;">
+      <h2>Planificar<br>y revisar.</h2>
+    </div>
+  </div>
+  <div class="meta">El pasante inteligente · Planificar antes de construir · Revisar antes de aceptar</div>
+</section>
+
+<!-- 27. CARACTERÍSTICAS DEL PASANTE -->
+<section class="slide" data-label="27 Características del pasante">
+  <div class="eyebrow"><span class="dot"></span>03 · PLANIFICAR Y REVISAR<span class="rule"></span>6.2</div>
+  <div class="title-block">
+    <h2 class="title">Imaginate un pasante<br>que…</h2>
+  </div>
+  <ul class="dashes" style="margin-top: 70px; max-width: 1600px;">
+    <li>Programa muy rápido</li>
+    <li>Sabe de todo — frontend, backend, bases de datos, diseño</li>
+    <li>Trabaja 24/7 sin quejarse</li>
+    <li>Pero <strong>no sabe nada sobre tu proyecto ni de vos.</strong> No conoce tus decisiones, tus prioridades, ni qué querés lograr.</li>
+  </ul>
+  <p class="lead" style="margin-top: 60px; max-width: 1600px;">¿Lo mandarías a "armá un proyecto" y volverías al día siguiente?<br>El problema no es la <em>capacidad</em> — es la <strong>dirección.</strong></p>
+  <div class="footer"><span>03 / Planificar y revisar</span><span>6 — Pasante inteligente</span></div>
+</section>
+
+<!-- 16. PLANIFICAR — RESPUESTA A LOS PROBLEMAS -->
+<section class="slide" data-label="16 Planificar antes de construir">
+  <div class="eyebrow"><span class="dot"></span>03 · PLANIFICAR Y REVISAR<span class="rule"></span>7 · PLANIFICAR</div>
+  <div class="title-block">
+    <h2 class="title">Planificar antes de construir.</h2>
+  </div>
+  <div class="row" style="margin-top: 50px; gap: 40px;">
+    <div class="card grow" style="padding: 32px 40px;">
+      <div class="label">QUÉ ES</div>
+      <div class="head" style="font-size: 30px;">Iterar sobre la <em>idea</em> antes de iterar sobre el código.</div>
+      <div class="body" style="font-size: 22px; line-height: 1.5;">Decidís el qué y el cómo <strong>antes</strong> de que la IA escriba una línea. Conversás, ajustás, descartás — todo sin que se acumule deuda.</div>
+    </div>
+    <div class="card grow" style="padding: 32px 40px;">
+      <div class="label">PARA QUÉ SIRVE</div>
+      <div class="head" style="font-size: 30px;">Cambiar de rumbo cuando todavía es <em>gratis</em>.</div>
+      <div class="body" style="font-size: 22px; line-height: 1.5;">Sin código, mover la idea no cuesta nada. Con código ya escrito, cada cambio se apila sobre lo anterior y el costo crece rápido.</div>
+    </div>
+  </div>
+  <div style="margin-top: 50px; display: flex; align-items: center; justify-content: center;">
+    <svg viewBox="0 0 1480 260" style="width: 100%; max-width: 1480px; height: auto;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="planArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="oklch(0.20 0.012 70)"/>
+        </marker>
+        <marker id="planArrowAccent" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="oklch(0.62 0.18 30)"/>
+        </marker>
+        <marker id="planArrowMuted" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="oklch(0.45 0.012 70)"/>
+        </marker>
+      </defs>
+
+      <!-- Phase A: PLANIFICAR (loop on the idea) -->
+      <text x="40" y="40" font-family="JetBrains Mono" font-size="16" fill="oklch(0.45 0.012 70)" letter-spacing="0.12em">FASE A · PLANIFICAR — ITERÁS SOBRE LA IDEA</text>
+
+      <!-- Step 01: Idea inicial -->
+      <g>
+        <rect x="40" y="100" width="240" height="120" fill="none" stroke="oklch(0.20 0.012 70)" stroke-width="1.5"/>
+        <text x="60" y="132" font-family="JetBrains Mono" font-size="16" fill="oklch(0.45 0.012 70)" letter-spacing="0.08em">01</text>
+        <text x="60" y="178" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">Idea inicial</text>
+        <text x="60" y="204" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">(borrosa)</text>
+      </g>
+
+      <line x1="280" y1="160" x2="340" y2="160" stroke="oklch(0.20 0.012 70)" stroke-width="1.5" marker-end="url(#planArrow)"/>
+
+      <!-- Step 02: Conversar con la IA -->
+      <g>
+        <rect x="340" y="100" width="280" height="120" fill="none" stroke="oklch(0.20 0.012 70)" stroke-width="1.5"/>
+        <text x="360" y="132" font-family="JetBrains Mono" font-size="16" fill="oklch(0.45 0.012 70)" letter-spacing="0.08em">02</text>
+        <text x="360" y="178" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">Conversás con</text>
+        <text x="360" y="204" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">la IA — sin código</text>
+      </g>
+
+      <line x1="620" y1="160" x2="680" y2="160" stroke="oklch(0.20 0.012 70)" stroke-width="1.5" marker-end="url(#planArrow)"/>
+
+      <!-- Step 03: Plan / spec -->
+      <g>
+        <rect x="680" y="100" width="280" height="120" fill="none" stroke="oklch(0.20 0.012 70)" stroke-width="1.5"/>
+        <text x="700" y="132" font-family="JetBrains Mono" font-size="16" fill="oklch(0.45 0.012 70)" letter-spacing="0.08em">03</text>
+        <text x="700" y="178" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">Plan / spec corta</text>
+        <text x="700" y="204" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">(qué y cómo)</text>
+      </g>
+
+      <!-- Loop back to refine -->
+      <path d="M 820 100 L 820 80 L 460 80 L 460 100" fill="none" stroke="oklch(0.45 0.012 70)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#planArrowMuted)"/>
+      <text x="640" y="74" font-family="JetBrains Mono" font-size="13" fill="oklch(0.45 0.012 70)" letter-spacing="0.10em" text-anchor="middle">REFINAR · CAMBIAR · DESCARTAR</text>
+
+      <!-- Bridge arrow to Phase B -->
+      <line x1="960" y1="160" x2="1080" y2="160" stroke="oklch(0.62 0.18 30)" stroke-width="2" marker-end="url(#planArrowAccent)"/>
+      <text x="1020" y="142" font-family="JetBrains Mono" font-size="13" fill="oklch(0.62 0.18 30)" letter-spacing="0.10em" text-anchor="middle">RECIÉN ACÁ →</text>
+
+      <!-- Phase B: IMPLEMENTAR -->
+      <text x="1080" y="40" font-family="JetBrains Mono" font-size="16" fill="oklch(0.62 0.18 30)" letter-spacing="0.12em">FASE B · IMPLEMENTAR</text>
+
+      <g>
+        <rect x="1080" y="100" width="360" height="120" fill="none" stroke="oklch(0.62 0.18 30)" stroke-width="1.5"/>
+        <text x="1100" y="132" font-family="JetBrains Mono" font-size="16" fill="oklch(0.62 0.18 30)" letter-spacing="0.08em">04</text>
+        <text x="1100" y="178" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">La IA construye</text>
+        <text x="1100" y="204" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="oklch(0.20 0.012 70)">con dirección clara</text>
+      </g>
+
+      <!-- (legend boxes removed: redundant with the diagram above) -->
+    </svg>
+  </div>
+  <div class="footer"><span>03 / Planificar y revisar</span><span>7 — Planificar antes de construir</span></div>
+</section>
+
+<!-- 18. PLANIFICAR — BUENAS PRÁCTICAS -->
+<section class="slide" data-label="17 Revisar antes de aceptar">
+  <div class="eyebrow"><span class="dot"></span>03 · PLANIFICAR Y REVISAR<span class="rule"></span>7.2 · REVISAR</div>
+  <div class="title-block">
+    <h2 class="title">Y revisar antes de aceptar.</h2>
+  </div>
+  <p class="lead" style="margin-top: 32px; max-width: 1700px;">Planificar bien no te exime de revisar. La IA escribe rápido — vos sos el filtro. Si no mirás, no es tu trabajo: es el de la IA, con tu nombre arriba.</p>
+  <div class="row" style="margin-top: 50px; gap: 40px;">
+    <div class="card grow" style="padding: 32px 40px;">
+      <div class="label">REVISAR EL CÓDIGO</div>
+      <div class="head" style="font-size: 30px;">Leer el diff, no solo aceptarlo.</div>
+      <div class="body" style="font-size: 22px; line-height: 1.5;">¿Cambió algo que no pediste? ¿Se agregaron dependencias raras? ¿La lógica se entiende? Si no podés explicar el cambio, todavía no es tuyo. <strong>Aceptar sin leer es deuda futura</strong>.</div>
+    </div>
+    <div class="card grow" style="padding: 32px 40px;">
+      <div class="label">REVISAR EL RESULTADO</div>
+      <div class="head" style="font-size: 30px;">Mirar la UI, correr el flujo.</div>
+      <div class="body" style="font-size: 22px; line-height: 1.5;">Abrir la pantalla, hacer click, probar el caso real. Los tests pasan y la UI puede estar rota igual: alineación, copy, estados vacíos, mobile. <strong>Lo que el usuario ve es lo que importa</strong>.</div>
+    </div>
+  </div>
+  <div class="footer"><span>03 / Planificar y revisar</span><span>7.2 — Revisar antes de aceptar</span></div>
+</section>
+
+<!-- 18. PLANIFICAR — BUENAS PRÁCTICAS -->
+<section class="slide" data-label="18 Cómo planificar bien">
+  <div class="eyebrow"><span class="dot"></span>03 · PLANIFICAR Y REVISAR<span class="rule"></span>7.3 · BUENAS PRÁCTICAS</div>
+  <div class="title-block">
+    <h2 class="title">Algunas formas<br>de planificar mejor.</h2>
+  </div>
+  <div class="row" style="margin-top: 60px; gap: 28px; align-items: stretch;">
+    <div class="card grow" style="padding: 32px 34px;">
+      <div class="label">01 — QUE LA IA TE ENTREVISTE</div>
+      <div class="head" style="font-size: 26px;">Grill me: que pregunte hasta entender.</div>
+      <div class="body" style="font-size: 20px; line-height: 1.45; margin-top: 10px;">En vez de describirle la idea perfecta, pedile que <strong>te entreviste a vos</strong>. Dispara preguntas que no habías pensado: edge cases, supuestos, decisiones que evitabas.<br><br><span class="mono" style="font-size: 17px; opacity: .75;">"Hacéme preguntas hasta que tengas la spec clara."</span></div>
+    </div>
+    <div class="card grow" style="padding: 32px 34px;">
+      <div class="label">02 — EXPLORAR EL CÓDIGO QUE YA EXISTE</div>
+      <div class="head" style="font-size: 26px;">Antes de agregar, entender qué hay.</div>
+      <div class="body" style="font-size: 20px; line-height: 1.45; margin-top: 10px;">Pedile a la IA que <strong>lea el repo</strong> antes de proponer nada: convenciones, patrones, archivos relacionados. Así el plan encaja con lo que ya construiste — no choca.<br><br><span class="mono" style="font-size: 17px; opacity: .75;">"Mirá cómo manejamos auth hoy y proponé un plan consistente."</span></div>
+    </div>
+    <div class="card grow" style="padding: 32px 34px;">
+      <div class="label">03 — INVESTIGAR / TRAER DOCS</div>
+      <div class="head" style="font-size: 26px;">Que la IA lea la documentación real.</div>
+      <div class="body" style="font-size: 20px; line-height: 1.45; margin-top: 10px;">Para librerías o APIs nuevas, conectarle <strong>docs actualizadas</strong> (Context7, MCPs de docs) evita que invente firmas o use APIs obsoletas. Investiga antes de proponer.<br><br><span class="mono" style="font-size: 17px; opacity: .75;">Context7 · MCPs de docs · web search</span></div>
+    </div>
+    <div class="card grow" style="padding: 32px 34px;">
+      <div class="label">04 — DAR REFERENCIAS</div>
+      <div class="head" style="font-size: 26px;">"Como X, pero para Y."</div>
+      <div class="body" style="font-size: 20px; line-height: 1.45; margin-top: 10px;">Mostrarle <strong>ejemplos concretos</strong> — un repo, un screenshot, un producto que te gusta — alinea el resultado más rápido que cualquier descripción larga. Anclás el qué y el cómo a algo real.<br><br><span class="mono" style="font-size: 17px; opacity: .75;">"Quiero algo parecido a Linear, pero para gestionar X."</span></div>
+    </div>
+  </div>
+  <div class="footer"><span>03 / Planificar y revisar</span><span>7.3 — Buenas prácticas</span></div>
+</section>
+
+<!-- 19. PLANNOTATOR -->
+<section class="slide" data-label="19 Plannotator — anotar planes y diffs">
+  <div class="eyebrow"><span class="dot"></span>03 · PLANIFICAR Y REVISAR<span class="rule"></span>7.4 · HERRAMIENTAS</div>
+  <div class="title-block">
+    <h2 class="title" style="font-size: 64px;">Plannotator.</h2>
+    <p class="kicker" style="margin-top: 14px;">Una herramienta para revisar planes y diffs antes de aceptarlos.</p>
+  </div>
+  <div class="row" style="margin-top: 40px; gap: 50px; align-items: stretch;">
+    <div class="col" style="flex: 0 0 38%; display: flex; flex-direction: column; gap: 24px;">
+      <p class="lead" style="font-size: 26px; max-width: none;">En vez de aceptar el plan o el diff a ciegas, lo abrís en una vista cómoda — anotás dudas, marcás cambios, y devolvés feedback estructurado a la IA.</p>
+      <ul class="dashes" style="font-size: 20px; gap: 14px;">
+        <li>Visualiza el plan completo antes de ejecutarlo — y te deja anotar dudas ahí mismo.</li>
+        <li>Anota líneas del diff con comentarios.</li>
+      </ul>
+      <div style="margin-top: auto; padding-top: 20px;">
+        <div class="label" style="font-size: 18px; opacity: .6; margin-bottom: 6px;">REPO</div>
+        <span class="mono" style="font-size: 22px; color: var(--accent);">github.com/backnotprop/plannotator</span>
+      </div>
+    </div>
+    <div class="grow" style="display: flex; align-items: center; justify-content: center;">
+      <img src="assets/plannotator.png" alt="Plannotator screenshot" style="width: 100%; max-height: 620px; object-fit: contain; border: 1px solid var(--rule); border-radius: 4px; box-shadow: 0 12px 40px oklch(0.20 0.012 70 / 0.15);">
+    </div>
+  </div>
+  <div class="footer"><span>03 / Planificar y revisar</span><span>7.4 — Plannotator</span></div>
+</section>
+
+<!-- 37. REVISAR LOS CAMBIOS -->
+<!-- 40. SUBAGENTES -->
+<section class="slide" data-label="40 Subagentes — segundo par de ojos">
+  <div class="eyebrow"><span class="dot"></span>03 · PLANIFICAR Y REVISAR<span class="rule"></span>8.4 · DELEGAR LA REVISIÓN</div>
+  <div class="title-block">
+    <h2 class="title">Subagentes:<br>un segundo par<br>de ojos.</h2>
+  </div>
+  <div class="flow-h" style="margin-top: 70px;">
+    <div class="step">Agente A<br>genera</div>
+    <div class="arr">→</div>
+    <div class="step accent">Agente B<br>revisa</div>
+    <div class="arr">→</div>
+    <div class="step">Reporte</div>
+    <div class="arr">→</div>
+    <div class="step">Vos<br>decidís</div>
+  </div>
+  <p class="lead" style="margin-top: 60px; max-width: 1700px;">Otro modelo, otro prompt, instrucciones explícitas de buscar problemas. <strong>No reemplaza tu juicio</strong> — filtra el ruido. Vos te quedás con las decisiones de criterio.</p>
+  <p class="small" style="margin-top: 28px;">Misma idea que un PR review: el autor está cerca, el revisor llega con ojos frescos.</p>
+  <div class="footer"><span>03 / Planificar y revisar</span><span>→ Bloque 04</span></div>
+</section>
+
+<!-- 42. BLOQUE 4 DIVIDER -->
+<section class="divider" data-label="42 Bloque 4 — Ingeniería agéntica">
+  <div class="eyebrow"><span class="dot"></span>BLOQUE 04</div>
+  <div class="row" style="align-items: flex-end; gap: 80px;">
+    <div class="num">04</div>
+    <div style="padding-bottom: 30px;">
+      <h2>Ingeniería<br>agéntica.</h2>
+    </div>
+  </div>
+  <div class="meta">Spec-driven development · Workflow · Skills · Validaciones</div>
+</section>
+
+<!-- 43. SPEC-DRIVEN — QUÉ ES + POR QUÉ (unified) -->
+<section class="slide" data-label="43 Spec-driven">
+  <div class="eyebrow"><span class="dot"></span>04 · ING. AGÉNTICA<span class="rule"></span>9 · SPEC-DRIVEN</div>
+  <div class="title-block">
+    <h2 class="title">Spec-driven:<br>el plan, <em>escrito</em>.</h2>
+  </div>
+  <p class="lead" style="margin-top: 50px; max-width: 1700px;">Consiste en bajar los aspectos definidos durante el planning en documentos que viven en el repo y describen distintos aspectos del proyecto — un feature, una decisión arquitectónica, un módulo, una integración.</p>
+  <div class="row" style="margin-top: 50px; gap: 32px;">
+    <div class="card grow" style="padding: 32px;">
+      <div class="label">CONSISTENCIA</div>
+      <div class="body" style="font-size: 24px;">Sobreviven en el tiempo, describen el estado ideal del sistema.</div>
+    </div>
+    <div class="card grow" style="padding: 32px;">
+      <div class="label">ITERACIÓN BARATA</div>
+      <div class="body" style="font-size: 24px;">Cambiás un doc sin escribir código. Discutís, ajustás, recién entonces implementás.</div>
+    </div>
+    <div class="card grow" style="padding: 32px;">
+      <div class="label">MENOS SUPOSICIONES</div>
+      <div class="body" style="font-size: 24px;">La IA no adivina las decisiones — las lee.</div>
+    </div>
+  </div>
+  <p class="small" style="margin-top: 32px;">
+</p>
+  <div class="footer"><span>04 / Ing. agéntica</span><span>9 — Spec-driven</span></div>
+</section>
+
+<!-- 45. SPEC-DRIVEN — WORKFLOW -->
+<section class="slide" data-label="45 Spec-driven — workflow">
+  <div class="eyebrow"><span class="dot"></span>04 · ING. AGÉNTICA<span class="rule"></span>9.3 · WORKFLOW</div>
+  <div class="title-block">
+    <h2 class="title">Cómo se ve un flujo<br>de spec-driven development.</h2>
+    <p class="kicker">
+</p>
+  </div>
+  <div class="flow-h" style="margin-top: 70px;">
+    <div class="step"><div><strong>SPEC</strong><br><span style="font-size: 16px; color: var(--ink-3);">WHAT</span></div></div>
+    <div class="arr">→</div>
+    <div class="step"><div><strong>DESIGN</strong><br><span style="font-size: 16px; color: var(--ink-3);">WHY / HOW</span></div></div>
+    <div class="arr">→</div>
+    <div class="step"><div><strong>PLAN</strong><br><span style="font-size: 16px; color: var(--ink-3);">STEPS</span></div></div>
+    <div class="arr">→</div>
+    <div class="step accent"><div><strong>IMPLEMENT</strong><br><span style="font-size: 16px;">EJECUTAR</span></div></div>
+  </div>
+  <p class="lead" style="margin-top: 50px; max-width: 1700px;">Definís <strong>qué</strong> querés, después <strong>por qué</strong> y <strong>cómo</strong>, opcionalmente <strong>los pasos</strong> para la implementación. Recién ahí escribimos el código. Cada artefacto se revisa antes de pasar al siguiente.</p>
+  <div class="footer"><span>04 / Ing. agéntica</span><span>9.3 — Workflow</span></div>
+</section>
+
+<!-- 46. SKILLS — INTRO -->
+<section class="slide" data-label="46 Skills — qué son">
+  <div class="eyebrow"><span class="dot"></span>04 · ING. AGÉNTICA<span class="rule"></span>10 · SKILLS</div>
+  <div class="title-block">
+    <h2 class="title">Skills:<br>conocimiento empaquetado.</h2>
+  </div>
+  <p class="lead" style="margin-top: 50px; max-width: 1700px;">Son <strong>prompts que encapsulan conocimiento, procesos y herramientas</strong> — listos para que la IA los use cuando los necesite. Una vez los escribís, están disponibles siempre, en cada conversación, en cada proyecto.</p>
+  <div style="margin-top: 50px; max-width: 1700px;">
+    <div class="label" style="margin-bottom: 16px;">EJEMPLOS</div>
+    <ul class="dashes" style="font-size: 26px; gap: 14px;">
+      <li><strong>Standards de código</strong> — convenciones, naming, patrones que usamos en este proyecto.</li>
+      <li><strong>Pasos para debuggear</strong> — cómo aislar un problema, qué logs mirar, cómo reproducir.</li>
+      <li><strong>Cómo hacer queries a la base</strong> — qué cliente usar, qué índices considerar, cómo paginar.</li>
+    </ul>
+  </div>
+  <div class="footer"><span>04 / Ing. agéntica</span><span>10 — Skills</span></div>
+</section>
+
+<!-- 47. SKILLS — POR QUÉ -->
+<section class="slide" data-label="47 Skills — por qué importan">
+  <div class="eyebrow"><span class="dot"></span>04 · ING. AGÉNTICA<span class="rule"></span>10.2 · POR QUÉ</div>
+  <div class="title-block">
+    <h2 class="title">Por qué importan.</h2>
+  </div>
+  <ul class="dashes" style="margin-top: 70px; max-width: 1700px;">
+    <li><strong>Dejás de repetir instrucciones</strong> — lo que aprendés una vez se aplica solo la próxima.</li>
+    <li><strong>Conocimiento del equipo, no de una persona</strong> — un skill es un proceso del equipo, no algo que sabe sólo el senior.</li>
+    <li><strong>Componibles</strong> — pequeñas unidades que se combinan. La IA elige cuáles aplican.</li>
+    <li><strong>Crecen con el proyecto</strong> — cada vez que descubrís cómo hacer algo bien, lo capturás como skill.</li>
+    <li><strong>Capturalos donde tengan más sentido</strong> — en el repo del proyecto, globalmente en tu config, o como plugins que instalás cuando los necesitás.</li>
+  </ul>
+  <p class="small" style="margin-top: 40px;">Simon Willison: <em>"hoard things you know how to do"</em> — acumular soluciones para combinar y reutilizar.</p>
+  <div class="footer"><span>04 / Ing. agéntica</span><span>10.2 — Skills</span></div>
+</section>
+
+<!-- 48. VALIDACIONES — INTRO + LOOP -->
+<section class="slide" data-label="48 Validaciones — qué son">
+  <div class="eyebrow"><span class="dot"></span>04 · ING. AGÉNTICA<span class="rule"></span>11 · VALIDACIONES</div>
+  <div class="title-block">
+    <h2 class="title">Validaciones:<br>dar feedback rápido<br>para <em>mejorar el output.</em></h2>
+  </div>
+  <p class="lead" style="margin-top: 50px; max-width: 1700px;">Mecanismos automáticos que le dicen a la IA <em>"esto está bien"</em> o <em>"probá de nuevo"</em>. Con ese feedback puede iterar sola hasta acertar — sin que vos tengas que revisar cada cambio a mano.</p>
+  <div class="flow-h" style="margin-top: 50px; flex-wrap: wrap; row-gap: 16px;">
+    <div class="step">Escribir<br>código</div>
+    <div class="arr">→</div>
+    <div class="step accent">Validar</div>
+    <div class="arr">→</div>
+    <div class="step">¿Pasa?<br><span style="font-size:14px;">SÍ → siguiente</span></div>
+    <div class="arr">↘</div>
+    <div class="step">Leer error</div>
+    <div class="arr">→</div>
+    <div class="step">Ajustar</div>
+  </div>
+  <p class="small" style="margin-top: 28px;"><strong>Mientras más temprano validás, más barato es arreglar.</strong></p>
+  <div class="footer"><span>04 / Ing. agéntica</span><span>11 — Validaciones</span></div>
+</section>
+
+<!-- 49. VALIDACIONES — TESTS: CORRECTNESS + SAFETY NET -->
+<section class="slide" data-label="49 Validaciones — tests">
+  <div class="eyebrow"><span class="dot"></span>04 · ING. AGÉNTICA<span class="rule"></span>11.2 · TESTS</div>
+  <div class="title-block">
+    <h2 class="title">Los tests te dicen<br>dos cosas.</h2>
+  </div>
+  <div class="row" style="margin-top: 70px; gap: 36px;">
+    <div class="card grow" style="padding: 50px;">
+      <div class="label">01 — CORRECTNESS</div>
+      <div class="head">Hace lo que tiene que hacer.</div>
+      <div class="body" style="font-size: 26px;">No es garantía total — pero <em>mucho</em> mejor que "lo probé una vez y funcionó".</div>
+    </div>
+    <div class="card grow" style="padding: 50px;">
+      <div class="label">02 — SAFETY NET</div>
+      <div class="head">Cuando cambiás algo, te avisan si rompiste otra cosa.</div>
+      <div class="body" style="font-size: 26px;">Sin tests, cada cambio es un salto al vacío. Modificás, esperás, rezás.</div>
+    </div>
+  </div>
+  <div class="footer"><span>04 / Ing. agéntica</span><span>11.2 — Tests</span></div>
+</section>
+
+<!-- 50. VALIDACIONES — MÁS ALLÁ DE LOS TESTS -->
+<section class="slide" data-label="50 Validaciones — más allá de los tests">
+  <div class="eyebrow"><span class="dot"></span>04 · ING. AGÉNTICA<span class="rule"></span>11.3 · MÁS ALLÁ</div>
+  <div class="title-block">
+    <h2 class="title">Lo que <em>de verdad</em><br>cierra el loop.</h2>
+    <p class="kicker">Más difíciles de configurar — pero la IA pasa de "creo que funciona" a "ví que funciona".</p>
+  </div>
+  <div class="row" style="margin-top: 50px; gap: 32px;">
+    <div class="card grow" style="padding: 36px;">
+      <div class="label">BROWSER TESTING</div>
+      <div class="head" style="font-size: 30px;">Que vea el resultado.</div>
+      <div class="body" style="font-size: 22px;">La IA abre un navegador headless, navega tu app, toma screenshots, los lee. Detecta cosas que ningún unit test ve — un layout roto, un botón invisible, un overflow.</div>
+    </div>
+    <div class="card grow" style="padding: 36px;">
+      <div class="label">VISUAL DIFFS</div>
+      <div class="head" style="font-size: 30px;">¿Cambió algo que no querías?</div>
+      <div class="body" style="font-size: 22px;">Comparás el render contra una baseline. Cualquier diferencia visual aparece — la IA decide si es intencional o regresión.</div>
+    </div>
+    <div class="card grow" style="padding: 36px;">
+      <div class="label">END-TO-END</div>
+      <div class="head" style="font-size: 30px;">El flujo completo.</div>
+      <div class="body" style="font-size: 22px;">Recorridos reales del usuario — login, formularios, integraciones. Más caros de mantener, pero atrapan los bugs que más duelen.</div>
+    </div>
+  </div>
+  <p class="small" style="margin-top: 32px;">Configurar esto cuesta más que un linter. Pero le abrís a la IA un canal de feedback que cambia su forma de trabajar.</p>
+  <div class="footer"><span>04 / Ing. agéntica</span><span>→ Cierre</span></div>
+</section>
+
+<!-- 55. CIERRE DIVIDER -->
+<section class="divider" data-label="55 Cierre">
+  <div class="eyebrow"><span class="dot"></span>CIERRE</div>
+  <div class="row" style="align-items: flex-end; gap: 80px;">
+    <div class="num">05</div>
+    <div style="padding-bottom: 30px;">
+      <h2>Cierre.</h2>
+    </div>
+  </div>
+  <div class="meta">La idea central · El toolkit</div>
+</section>
+
+<!-- 57. EL CAMBIO NO ES TÉCNICO -->
+<section class="quote-slide slide" data-label="57 De aceptar resultados a dirigir">
+  <div class="eyebrow"><span class="dot"></span>CIERRE<span class="rule"></span>11.2 · LA IDEA CENTRAL</div>
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+    <p class="pull" style="font-size: 80px;">De aceptar lo que sale,<br>a dirigir lo que se construye.</p>
+    <div style="margin-top: 70px; max-width: 1500px;">
+      <p style="font-family: var(--serif); font-style: italic; font-size: 36px; color: var(--bg); line-height: 1.3;">La IA sigue escribiendo el código. Vos decidís qué se escribe, cómo se organiza y cuándo está listo.</p>
+    </div>
+  </div>
+  <div class="footer"><span style="color: oklch(0.95 0.04 45);">05 / Cierre</span><span style="color: oklch(0.95 0.04 45);">11 — Puntos clave</span></div>
+</section>
+
+<!-- 58. EL TOOLKIT -->
+<section class="slide" data-label="58 El toolkit">
+  <div class="eyebrow"><span class="dot"></span>CIERRE<span class="rule"></span>11.3 · HERRAMIENTAS</div>
+  <div class="title-block">
+    <h2 class="title">El toolkit.</h2>
+    <p class="kicker">Todo lo que pasamos hoy, en una sola página. No tenés que adoptar todo — empezá por el dolor que más te molesta.</p>
+  </div>
+  <div class="row" style="margin-top: 32px; gap: 24px; align-items: stretch;">
+    <div class="card grow" style="padding: 24px 26px;">
+      <div class="label">PLANIFICAR &amp; REVISAR</div>
+      <ul class="dashes" style="margin-top: 14px; font-size: 19px; line-height: 1.5;">
+        <li><strong>Plan mode</strong> — separar pensar de hacer</li>
+        <li><strong>Grill me</strong> — que la IA te entreviste</li>
+        <li><strong>Plannotator</strong> — anotar planes y diffs</li>
+        <li><strong>Subagentes</strong> — segundo par de ojos</li>
+      </ul>
+    </div>
+    <div class="card grow" style="padding: 24px 26px;">
+      <div class="label">CONTEXTO</div>
+      <ul class="dashes" style="margin-top: 14px; font-size: 19px; line-height: 1.5;">
+        <li><strong>Context7</strong> — docs actualizadas</li>
+        <li><strong>MCPs de docs</strong> — APIs, librerías</li>
+        <li><strong>Web search</strong> — antes de proponer</li>
+        <li><strong>Referencias</strong> — repos, screenshots, "como X"</li>
+      </ul>
+    </div>
+    <div class="card grow" style="padding: 24px 26px;">
+      <div class="label">ING. AGÉNTICA</div>
+      <ul class="dashes" style="margin-top: 14px; font-size: 19px; line-height: 1.5;">
+        <li><strong>Spec-driven</strong> — spec → plan → código</li>
+        <li><strong>Skills</strong> — conocimiento empaquetado</li>
+        <li><strong>Standards de código</strong> — capturados, no repetidos</li>
+      </ul>
+    </div>
+    <div class="card grow" style="padding: 24px 26px;">
+      <div class="label">VALIDACIÓN</div>
+      <ul class="dashes" style="margin-top: 14px; font-size: 19px; line-height: 1.5;">
+        <li><strong>Tests + linters</strong> — feedback rápido</li>
+        <li><strong>Browser testing</strong> — que vea el resultado</li>
+        <li><strong>Visual diffs</strong> — detectar regresiones</li>
+        <li><strong>End-to-end</strong> — el flujo completo</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>05 / Cierre</span><span>11 — El toolkit</span></div>
+</section>
+
+<!-- 60. RECURSOS -->
+<section class="slide" data-label="60 Recursos">
+  <div class="eyebrow"><span class="dot"></span>CIERRE<span class="rule"></span>11.5 · LECTURAS</div>
+  <div class="title-block">
+    <h2 class="title">Si querés meterte<br>más a fondo.</h2>
+  </div>
+  <ul class="resources" style="margin-top: 70px; max-width: 1700px;">
+    <li>
+      <div><span class="who">Simon Willison · </span><span class="what">Agentic Engineering Patterns — patrones prácticos para coding agents</span></div>
+      <span class="url">simonwillison.net/guides/agentic-engineering-patterns</span>
+    </li>
+    <li>
+      <div><span class="who">Peter Steinberger · </span><span class="what">Just Talk To It — un enfoque pragmático sin specs formales</span></div>
+      <span class="url">steipete.me/posts/just-talk-to-it</span>
+    </li>
+    <li>
+      <div><span class="who">Curso · </span><span class="what">Vibe Coding to Agentic Engineering — versión completa de 4 semanas</span></div>
+      <span class="url">próximamente</span>
+    </li>
+  </ul>
+  <p class="lead" style="margin-top: 80px; font-family: var(--serif); font-style: italic; font-size: 56px; color: var(--accent);">Gracias.</p>
+  <div class="footer"><span>05 / Cierre</span><span>fin · 27 · 04 · 2026</span></div>
+</section>
+
+</deck-stage>
+</body>
+</html>
